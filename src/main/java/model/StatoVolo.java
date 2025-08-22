@@ -7,9 +7,9 @@ public enum StatoVolo {
     PROGRAMMATO,
 
     /**
-     * Volo che è decollato.
+     * Volo decollato e attualmente in volo.
      */
-    DECOLLATO,
+    IN_VOLO,
 
     /**
      * Volo che è arrivato a destinazione.
