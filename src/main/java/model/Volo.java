@@ -27,7 +27,7 @@ public class Volo {
     /**
      * L'aeroporto in cui volo è atterrato / deve atterrare.
      */
-    private String aeoroportoDestinazione;
+    private String aeroportoDestinazione;
 
     /**
      * Il giorno e l'orario di partenza.
@@ -67,7 +67,7 @@ public class Volo {
         this.codiceVolo = codiceVolo;
         this.compagniaAerea = compagniaAerea;
         this.aeroportoOrigine = aeroportoOrigine;
-        this.aeoroportoDestinazione = aeoroportoDestinazione;
+        this.aeroportoDestinazione = aeoroportoDestinazione;
         this.oraDataPartenza = oraDataPartenza;
         this.oraDataArrivo = oraDataArrivo;
         this.statoVolo = StatoVolo.PROGRAMMATO;
@@ -126,18 +126,18 @@ public class Volo {
 
     /**
      * Metodo setter per assegnare l'aeroporto di destinazione.
-     * @param aeoroportoDestinazione l'aeroporto di atterraggio del volo.
+     * @param aeroportoDestinazione l'aeroporto di atterraggio del volo.
      */
-    public void setAeoroportoDestinazione(String aeoroportoDestinazione) {
-        this.aeoroportoDestinazione = aeoroportoDestinazione;
+    public void setAeroportoDestinazione(String aeroportoDestinazione) {
+        this.aeroportoDestinazione = aeroportoDestinazione;
     }
 
     /**
      * Metodo getter per conoscere l'aeroporto di atterraggio.
      * @return restituisce l'aeroporto di atterraggio di un volo.
      */
-    public String getAeoroportoDestinazione() {
-        return aeoroportoDestinazione;
+    public String getAeroportoDestinazione() {
+        return aeroportoDestinazione;
     }
 
     /**

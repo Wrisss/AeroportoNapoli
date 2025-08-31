@@ -1,6 +1,91 @@
 package dao;
 
+import model.*;
+import java.util.List;
+
+/**
+ * L'interfaccia PostgresDAO contiene tutte le firme ai metodi che consentono di recuperare i dati dal database PostegreSQL.
+ */
 public interface PostgresDAO {
 
+    // INTERFACCE SUPERUTENTE
+    /**
+     *  Interfaccia per recuperare un utente conoscendone le credenziali.
+     *
+     * @param username l'username utilizzato per accedere
+     * @param password la password utilizzata per accedere
+     * @return l'utente richiesto se le credenziali sono valide, altrimenti null.
+     */
+    Superutente getUtenteByCredentials(String username, String password);
 
+    /**
+     * Interfaccia che permette di inserire nel database un nuovo utente.
+     * @param utenteGenerico il nuovo utente
+     * @return true se l'utente è stato inserito, false altrimenti.
+     */
+    boolean insertUtenteGenerico (UtenteGenerico utenteGenerico);
+
+    /**
+     * Interfaccia per recuperare tutti i voli presenti nel database.
+     * @return l'elenco dei voli
+     */
+    List<Volo> getElencoVoli();
+
+
+    // INTERFACCE AMMINISTRATORE
+    /**
+     * Interfaccia che permette di inserire nuovi voli al database.
+     * @return true se l'inserimento è avvenuto con successo, false altrimenti.
+     */
+    boolean insertVolo(Volo volo);
+
+    /**
+     * Interfaccia che permette di aggiornare le informazioni di un volo.
+     * @return true se la modifica è avvenuta con successo, false altrimenti.
+     */
+    boolean updateVolo(Volo volo);
+
+    /**
+     * Interfaccia che permette di assegnare un nuovo gate, solo per i voli in partenza
+     * @return true se l'assegnazione ha avuto successo, false altrimenti.
+     */
+    boolean modificaGate(int nuovogate, int codiceVolo);
+
+
+    // INTERFACCE UTENTE GENERICO
+
+    /**
+     * Interfaccia che permette di aggiungere una prenotazione associata a un volo.
+     * @param volo il volo che si vuole prenotare
+     * @return la prenotazione
+     */
+    Prenotazione prenotaVolo(Volo volo);
+
+    /**
+     * Inferfaccia che permette di modificare una prenotazione.
+     * @param prenotazione la prenotazione che si vuole modificare
+     * @return true se la modifica è avvenuta con successo, false altrimenti
+     */
+    boolean aggiornaPrenotazione(Prenotazione prenotazione);
+
+    /**
+     * Interfaccia che permette di recuperare la prenotazione conoscendo l'id del volo.
+     * @param codiceVolo l'id del volo richiesta
+     * @return la prenotazione associata al volo.
+     */
+    Prenotazione getPrenotazioneByIdVolo(int codiceVolo);
+
+    /**
+     * Interfaccia che permette di recuperare una prenotazione tramite i dati di un passeggero.
+     * @param passeggero i dati del passeggero per ricercare
+     * @return la prenotazione associata al passeggero.
+     */
+    Prenotazione GetPrenotazioneByPasseggero(Passeggero passeggero);
+
+    /**
+     * Interfaccia che permette di recuperare tutte le prenotazioni associate a un utente.
+     * @param utenteGenerico l'utente generico di cui si voglio recuperare le prenotazioni.
+     * @return l'elenco delle prenotazioni
+     */
+    List<Prenotazione> getPrenotazioniByUtente(UtenteGenerico utenteGenerico);
 }

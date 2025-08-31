@@ -1,12 +1,12 @@
 package model;
 
 /**
- * La classe che rappresenta un utente generico che accede al sistema.
+ * La classe che rappresenta un utente generico che accede al sistema viene definita come classe astratta.
  * Ogni utente deve accedere con le proprie credenziali.
  * Questa classe è una generalizzazione delle classi, rispettivamente, di UTENTE_GENERICO e AMMINISTRATORE.
  */
 
-public class Utente {
+public abstract class Superutente {
     // ATTRIBUTI
     /**
      * L'username per accedere al sistema.
@@ -23,7 +23,7 @@ public class Utente {
      * @param username username per l'autenticazione.
      * @param password password per l'autenticazione.
      */
-    public Utente(String username, String password){
+    public Superutente(String username, String password){
         this.username = username;
         this.password = password;
     }
@@ -61,6 +61,12 @@ public class Utente {
     public String getPassword() {
         return password;
     }
+
+    /**
+     * Interfaccia astratta che permette di recuperare il ruolo di utente navigando le sottoclassi specifiche di SUPERUTENTE.
+     * @return il ruolo dell'utente
+     */
+    public abstract String getRuolo();
 }
 
 

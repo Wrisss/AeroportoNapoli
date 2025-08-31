@@ -12,6 +12,12 @@ public class Homepage extends JFrame {
     private Controller controller;
     private JPanel panelHomepage;
 
+    /**
+     * Costruttore della Homepage.  Viene passato come parametro un riferimento all'oggetto controller della classe Controller
+     * Il passaggio come parametro di un riferimento a un'altra classe è una tecnica che permette la comunicazione tra
+     * due oggetti di classi distinti –Dependency Injection tramite costruttore–.
+     * @param controller il controller unico della classe Controller.
+     */
     public Homepage(Controller controller){
         this.controller = controller;
 
