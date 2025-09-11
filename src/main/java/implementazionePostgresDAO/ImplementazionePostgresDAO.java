@@ -8,6 +8,7 @@ import model.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * La classe ImplementazionePostgresDAO contiene tutte le implementazioni logiche delle interfacce PostgresDAO.
@@ -185,7 +186,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     public boolean updateVolo(Volo volo){
         String query = "UPDATE volo SET compaerea = ?, appart = ?, apdest = ?, " +
                 "dataorapart = ?, dataoraarrivo = ?, ritardo= ?, statovolo = ? WHERE codicevolo = ?";
-    try( Connection conn = ConnessioneDatabase.getInstance().connection;
+    try (Connection conn = ConnessioneDatabase.getInstance().connection;
          PreparedStatement stmt = conn.prepareStatement(query)){
              stmt.setString(1, volo.getCompagniaAerea());
              stmt.setString(2, volo.getAeroportoOrigine());
@@ -210,6 +211,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      * @param codicevolo il codice per recuperare il volo che si vuole modificare
      * @return true se la modifica è andata a buon fine, false altrimenti.
      */
+    @Override
     public boolean modificaGate(int nuovogate, int codicevolo){
         String query = "UPDATE volo SET gate = ? WHERE codicevolo = ? AND aeroporto_partenza = 'Napoli'";
 
@@ -227,6 +229,94 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
         }
         return false;}
 
+    /**
+     * Metodo che permette di selezionare un volo e creare una prenotazione legata a quel volo.
+     * @param codiceVolo il codice del volo che si vuole prenotare
+     * @return true se la prenotazione è stata creata con successo, altrimenti false.
+     */
+    @Override
+    public boolean prenotaVolo(int codiceVolo, String nomePasseggero, int postoScelto){
+        String query = "INSERT INTO PRENOTAZIONE (idVolo, NomePasseggero, NumeroBiglietto, PostoAssegnato, StatoPren) " +
+                "VALUES (?, ?, ?, ?, ?)";
+
+    try(Connection conn = ConnessioneDatabase.getInstance().connection;
+        PreparedStatement stmt = conn.prepareStatement(query)){
+
+        Random random = new Random();
+        int numeroBiglietto = 100000 + random.nextInt(900000);
+        String numBiglietto = "BGL" + numeroBiglietto;
+
+        stmt.setInt(1, codiceVolo);
+        stmt.setString(2, nomePasseggero);
+        stmt.setString(3, numBiglietto);
+        stmt.setInt(4, postoScelto);
+        stmt.setString(5, "IN_ATTESA");
+
+        int righeInserite = stmt.executeUpdate();
+
+        return righeInserite > 0;
+
+    }
+    catch(SQLException e){System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
+        e.printStackTrace();
+        return false;}
+    }
+
+    @Override
+    public List<Prenotazione> getPrenotazioniByUtente(UtenteGenerico utenteGenerico){
+        List<Prenotazione> elencoPrenotazioni = new ArrayList<>();
+
+        String query = "SELECT idPrenotazione, idVolo, NomePasseggero, NumeroBiglietto, PostoAssegnato, StatoPren" +
+                "FROM PRENOTAZIONE p JOIN VOLO v ON p.idvolo = v.codicevolo + JOIN " +
+                "SUPERUTENTE su ON v.idutente = su.idutente" +
+                " WHERE idutente = ? ORDER BY idprenotazione DESC";
+
+        try(Connection conn = ConnessioneDatabase.getInstance().connection;
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery()) {
+
+        }
+        catch (SQLException e){System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
+            e.printStackTrace();}
+    }
+
+    @Override
+    public boolean aggiornaPrenotazione(Prenotazione prenotazione) {
+
+        String query = ""
+
+        try (Connection conn = ConnessioneDatabase.getInstance().connection;
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+        } catch (SQLException e) {
+            System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Prenotazione getPrenotazioneByIdVolo(int codiceVolo){
+
+        String query = ""
+
+            try(Connection conn = ConnessioneDatabase.getInstance().connection;
+                PreparedStatement stmt = conn.prepareStatement(query)){}
+            catch (SQLException e){System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
+                e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public Prenotazione GetPrenotazioneByPasseggero(Passeggero passeggero){
+
+        String query = ""
+            try(Connection conn = ConnessioneDatabase.getInstance().connection;
+                PreparedStatement stmt = conn.prepareStatement(query)){}
+            catch (SQLException e){System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
+                e.printStackTrace();
+        }
+
+    }
 
 
 

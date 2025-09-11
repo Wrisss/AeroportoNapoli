@@ -55,11 +55,20 @@ public interface PostgresDAO {
     // INTERFACCE UTENTE GENERICO
 
     /**
-     * Interfaccia che permette di aggiungere una prenotazione associata a un volo.
-     * @param volo il volo che si vuole prenotare
-     * @return la prenotazione
+     * Metodo che permette di aggiungere una prenotazione al database tramite l'id del volo.
+     * @param CodiceVolo il codice del volo che si intende prenotare
+     * @param nomePasseggero il nome del passeggero associato alla prenotazione
+     * @param postoScelto il posto scelto sull'aereo
+     * @return true se l'operazione è andata a buon fine, false altrimenti
      */
-    Prenotazione prenotaVolo(Volo volo);
+    boolean prenotaVolo(int CodiceVolo, String nomePasseggero, int postoScelto);
+
+    /**
+     * Interfaccia che permette di recuperare tutte le prenotazioni associate a un utente.
+     * @param utenteGenerico l'utente generico di cui si voglio recuperare le prenotazioni.
+     * @return l'elenco delle prenotazioni
+     */
+    List<Prenotazione> getPrenotazioniByUtente(UtenteGenerico utenteGenerico);
 
     /**
      * Inferfaccia che permette di modificare una prenotazione.
@@ -82,10 +91,4 @@ public interface PostgresDAO {
      */
     Prenotazione GetPrenotazioneByPasseggero(Passeggero passeggero);
 
-    /**
-     * Interfaccia che permette di recuperare tutte le prenotazioni associate a un utente.
-     * @param utenteGenerico l'utente generico di cui si voglio recuperare le prenotazioni.
-     * @return l'elenco delle prenotazioni
-     */
-    List<Prenotazione> getPrenotazioniByUtente(UtenteGenerico utenteGenerico);
 }
