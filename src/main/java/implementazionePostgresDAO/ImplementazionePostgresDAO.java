@@ -57,7 +57,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                     String passwordDb = rs.getString("password");
 
                     // Processazione dei risultati.
-                    if ("Amministratore".equalsIgnoreCase(ruoloDatabase)) {
+                    if ("amministratore".equalsIgnoreCase(ruoloDatabase)) {
                         return new Amministratore(usernameDb, passwordDb);
                     } else if ("utente".equalsIgnoreCase(ruoloDatabase)) {
                         return new UtenteGenerico(usernameDb, passwordDb);
@@ -106,7 +106,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     @Override
     public List<Volo> getElencoVoli() {
         List<Volo> elencoVoli = new ArrayList<>();
-        String query = "SELECT v.codicevolo, v.compaerea, v.appart, v.apdest," +
+        String query = "SELECT v.codicevolo, v.idutenteinsert, v.compaerea, v.appart, v.apdest," +
                 "v.dataorapart, v.dataoraarrivo, v.ritardo, v.statovolo"
                 + " FROM Volo v order by dataorapart DESC";
 
@@ -115,6 +115,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 int codiceVolo = rs.getInt("codicevolo");
+                int idUtenteInsert = rs.getInt("idutenteinsert");
                 String compagniaAerea = rs.getString("compaerea");
                 String aeroportoOrigine = rs.getString("appart");
                 String aeroportoDestinazione = rs.getString("apdest");
@@ -123,7 +124,8 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                 int ritardo = rs.getInt("ritardo");
                 StatoVolo statoVolo = StatoVolo.valueOf(rs.getString("statovolo"));
 
-                Volo volo = new Volo(codiceVolo, compagniaAerea, aeroportoOrigine, aeroportoDestinazione, dataOraPartenza,
+                Volo volo = new Volo(codiceVolo, idUtenteInsert, compagniaAerea,
+                        aeroportoOrigine, aeroportoDestinazione, dataOraPartenza,
                         dataOraArrivo, statoVolo, ritardo);
                 elencoVoli.add(volo);
             }
@@ -142,22 +144,24 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      */
     @Override
     public boolean insertVolo(Volo volo) {
-        String query = "INSERT INTO Volo (codicevolo, compaerea, appart, apdest, dataorapart, dataoraarrivo, gateassegnato, ritardo, statovolo) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Volo (codicevolo, idutenteinsert, compaerea,  appart," +
+                "apdest, dataorapart, dataoraarrivo, gateassegnato, ritardo, statovolo)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnessioneDatabase.getInstance().connection) {
             conn.setAutoCommit(false);
 
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setInt(1, volo.getCodiceVolo());
-                stmt.setString(2, volo.getCompagniaAerea());
-                stmt.setString(3, volo.getAeroportoOrigine());
-                stmt.setString(4, volo.getAeroportoDestinazione());
-                stmt.setDate(5, Date.valueOf(volo.getOraDataPartenza()));
-                stmt.setDate(6, Date.valueOf(volo.getOraDataArrivo()));
-                stmt.setInt(7, 0);
-                stmt.setInt(8, volo.getRitardo());
-                stmt.setString(9, volo.getStatoVolo().toString());
+                stmt.setInt(2, volo.getIdUtenteInsert());
+                stmt.setString(3, volo.getCompagniaAerea());
+                stmt.setString(4, volo.getAeroportoOrigine());
+                stmt.setString(5, volo.getAeroportoDestinazione());
+                stmt.setDate(6, Date.valueOf(volo.getOraDataPartenza()));
+                stmt.setDate(7, Date.valueOf(volo.getOraDataArrivo()));
+                stmt.setInt(8, 0);
+                stmt.setInt(9, volo.getRitardo());
+                stmt.setString(10, volo.getStatoVolo().toString());
 
                 int rowsAffected = stmt.executeUpdate();
                 if (rowsAffected == 0) {
@@ -184,8 +188,9 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      */
     @Override
     public boolean updateVolo(Volo volo){
-        String query = "UPDATE volo SET compaerea = ?, appart = ?, apdest = ?, " +
-                "dataorapart = ?, dataoraarrivo = ?, ritardo= ?, statovolo = ? WHERE codicevolo = ?";
+        String query = "UPDATE volo SET v.compaerea = ?, v.appart = ?, v.apdest = ?, " +
+                "v.dataorapart = ?, v.dataoraarrivo = ?, v.gateassegnato = ?, v.ritardo= ?," +
+                "v.statovolo = ? WHERE codicevolo = ?";
     try (Connection conn = ConnessioneDatabase.getInstance().connection;
          PreparedStatement stmt = conn.prepareStatement(query)){
              stmt.setString(1, volo.getCompagniaAerea());
@@ -193,9 +198,10 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
              stmt.setString(3, volo.getAeroportoDestinazione());
              stmt.setDate(4, Date.valueOf(volo.getOraDataPartenza()));
              stmt.setDate(5, Date.valueOf(volo.getOraDataArrivo()));
-             stmt.setInt(6, volo.getRitardo());
-             stmt.setString(7, volo.getStatoVolo().toString());
-             stmt.setInt(8, volo.getCodiceVolo());
+             stmt.setInt(6,0);
+             stmt.setInt(7, volo.getRitardo());
+             stmt.setString(8, volo.getStatoVolo().toString());
+             stmt.setInt(9, volo.getCodiceVolo());
              return stmt.executeUpdate() > 0;
     }
     catch(SQLException e){
@@ -236,7 +242,8 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      */
     @Override
     public boolean prenotaVolo(int codiceVolo, String nomePasseggero, int postoScelto){
-        String query = "INSERT INTO PRENOTAZIONE (idVolo, NomePasseggero, NumeroBiglietto, PostoAssegnato, StatoPren) " +
+        String query = "INSERT INTO PRENOTAZIONE (idVolo, NomePasseggero, NumeroBiglietto," +
+                "PostoAssegnato, StatoPren)" +
                 "VALUES (?, ?, ?, ?, ?)";
 
     try(Connection conn = ConnessioneDatabase.getInstance().connection;
@@ -262,22 +269,53 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
         return false;}
     }
 
+    /**
+     * Metodo che permette di recuperare tutte le prenotazioni associate a utente.
+     * Questo metodo richiama il metodo di utilità 'creaPasseggeroDaNomeCompleto'.
+     * L'implementazione di tale metodo viene documentata più avanti.
+     * @param utenteGenerico l'utente generico di cui si voglio recuperare le prenotazioni
+     * @return l'elenco completo delle prenotazioni associate a un utente.
+     */
     @Override
     public List<Prenotazione> getPrenotazioniByUtente(UtenteGenerico utenteGenerico){
         List<Prenotazione> elencoPrenotazioni = new ArrayList<>();
 
-        String query = "SELECT idPrenotazione, idVolo, NomePasseggero, NumeroBiglietto, PostoAssegnato, StatoPren" +
-                "FROM PRENOTAZIONE p JOIN VOLO v ON p.idvolo = v.codicevolo + JOIN " +
-                "SUPERUTENTE su ON v.idutente = su.idutente" +
-                " WHERE idutente = ? ORDER BY idprenotazione DESC";
+        String query = "SELECT p.idPrenotazione, p.idVolo, p.idUtente, p.NomePasseggero, " +
+                "p.NumeroBiglietto, p.PostoAssegnato, p.StatoPren " +
+                "FROM PRENOTAZIONE p " +
+                "JOIN SUPERUTENTE su ON p.idutente = su.idutente WHERE su.NomeUtente = ? " +
+                "ORDER BY idprenotazione DESC";
 
         try(Connection conn = ConnessioneDatabase.getInstance().connection;
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery()) {
+            PreparedStatement stmt = conn.prepareStatement(query);) {
 
+            stmt.setString(1, utenteGenerico.getUsername());
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int idPrenotazione = rs.getInt("idPrenotazione");
+                int idVolo = rs.getInt("idVolo");
+                int idUtente = rs.getInt("idUtente");
+
+                // Metodo per dividere il dato presente nel database e convertirlo in un oggetto.
+                String nomeCompleto = rs.getString("NomePasseggero");
+                Passeggero passeggero = creaPasseggeroDaNomeCompleto(nomeCompleto);
+                //
+
+                int numeroBiglietto = rs.getInt("NumeroBiglietto");
+                int postoAssegnato = rs.getInt("PostoAssegnato");
+                String statoString = rs.getString("StatoPren");
+                StatoPrenotazione statoPren = StatoPrenotazione.valueOf(statoString);
+
+
+                Prenotazione prenotazione = new Prenotazione(idPrenotazione, idVolo, idUtente, passeggero,
+                        numeroBiglietto, postoAssegnato, statoPren);
+                elencoPrenotazioni.add(prenotazione);
+            }
         }
-        catch (SQLException e){System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
+        catch (SQLException e){System.out.println("Errore durante il recupero della prenotazione: " + e.getMessage());
             e.printStackTrace();}
+        return elencoPrenotazioni;
     }
 
     @Override
@@ -291,6 +329,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
             System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
             e.printStackTrace();
         }
+        return true;
     }
 
     @Override
@@ -319,26 +358,24 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     }
 
 
+    /**
+     * Metodo che permette di trasformare una stringa contenente nome e cognome estratta dal database, in un oggetto
+     * passeggero definito nella classe Passeggero.
+     * @param nomeCompleto il nome e cognome così come sono salvati sul database
+     * @return l'oggetto passeggero.
+     */
+    private Passeggero creaPasseggeroDaNomeCompleto(String nomeCompleto) {
 
+        String[] partiNome = nomeCompleto.trim().split("\\s+", 2);
+        String nomePasseggero;
+        String cognomePasseggero;
 
+        nomePasseggero = partiNome[0];
+        cognomePasseggero = partiNome[1];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        String documentoIdentita = "";
+        return new Passeggero(nomePasseggero, cognomePasseggero, documentoIdentita);
+    }
 
 }
 

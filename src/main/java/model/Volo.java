@@ -15,6 +15,11 @@ public class Volo {
     protected int codiceVolo;
 
     /**
+     * L'id dell'amministratore che ha aggiunto il volo.
+     */
+    private int idUtenteInsert;
+
+    /**
      * La compagnia aerea che predispone il volo.
      */
     private String compagniaAerea;
@@ -54,20 +59,22 @@ public class Volo {
      * Costruttore della classe volo.
      *
      * @param codiceVolo             il codice univoco per ogni volo.
+     * @param idUtenteInsert         il codice dell'amministratore che ha inserito il volo.
      * @param compagniaAerea         la compagnia che eroga il volo.
      * @param aeroportoOrigine       l'aeroporto da cui parte il volo.
-     * @param aeoroportoDestinazione l'aeroporto in cui atterra il volo.
+     * @param aeroportoDestinazione l'aeroporto in cui atterra il volo.
      * @param oraDataArrivo          data e ora di partenza del volo.
      * @param oraDataPartenza        data e ora di arrivo del volo.
      * @param statoVolo              stato del volo. All'inizio della creazione il volo risulta sempre 'PROGRAMMATO'
      * @param ritardo                l'eventuale ritardo. All'inizio il valore è sempre '0'
      */
-    public Volo(int codiceVolo, String compagniaAerea, String aeroportoOrigine, String aeoroportoDestinazione,
+    public Volo(int codiceVolo, int idUtenteInsert, String compagniaAerea, String aeroportoOrigine, String aeroportoDestinazione,
                 LocalDate oraDataPartenza, LocalDate oraDataArrivo, StatoVolo statoVolo, int ritardo) {
         this.codiceVolo = codiceVolo;
+        this.idUtenteInsert = idUtenteInsert;
         this.compagniaAerea = compagniaAerea;
         this.aeroportoOrigine = aeroportoOrigine;
-        this.aeroportoDestinazione = aeoroportoDestinazione;
+        this.aeroportoDestinazione = aeroportoDestinazione;
         this.oraDataPartenza = oraDataPartenza;
         this.oraDataArrivo = oraDataArrivo;
         this.statoVolo = StatoVolo.PROGRAMMATO;
@@ -90,6 +97,14 @@ public class Volo {
      */
     public int getCodiceVolo() {
         return codiceVolo;
+    }
+
+    /**
+     * Metodo Getter per recuperare l'id dell'amministratore che ha aggiunto il volo.
+     * @return l'id dell'amministratore
+     */
+    public int getIdUtenteInsert() {
+        return idUtenteInsert;
     }
 
     /**

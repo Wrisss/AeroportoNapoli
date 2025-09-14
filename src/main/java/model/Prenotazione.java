@@ -6,6 +6,26 @@ package model;
  */
 public class Prenotazione {
     /**
+     * Il codice univoco di una prenotazione.
+     */
+    private int idPrenotazione;
+
+    /**
+     * Il codice del volo collegato alla prenotazione.
+     */
+    private int idVolo;
+
+    /**
+     * Il codice dellutente che ha effettuato la prenotazione.
+     */
+    private int idUtente;
+
+    /**
+     * Nome e cognome associato alla prenotazione.
+     */
+    private Passeggero passeggero;
+
+    /**
      * Il codice identificato di ogni biglietto associato alla prenotazione.
      */
     private int numeroBiglietto;
@@ -21,18 +41,51 @@ public class Prenotazione {
     private StatoPrenotazione statoPrenotazione;
 
     /**
-     * Costruttore della classe Prenotazione. Richiede tre argomenti.
+     * Costruttore della classe Prenotazione. Richiede 7 argomenti.
+     * @param idPrenotazione il codice univoco associato a una prenotazione
+     * @param idVolo il codice del volo associato alla prenotazione
+     * @param idUtente il codice dell'utente associato alla prenotazione
+     * @param passeggero nome e cognome del passeggero.
      * @param numeroBiglietto il numero del biglietto associato alla prenotazione.
      * @param postoAssegnato il posto assegnato sull'aereo.
      * @param statoPrenotazione lo stato in cui si trova la prenotazione.
      */
-    public Prenotazione(int numeroBiglietto, int postoAssegnato, StatoPrenotazione statoPrenotazione){
+    public Prenotazione(int idPrenotazione, int idVolo, int idUtente, Passeggero passeggero,
+                        int numeroBiglietto, int postoAssegnato, StatoPrenotazione statoPrenotazione){
+        this.idPrenotazione = idPrenotazione;
+        this.idVolo = idVolo;
+        this.idUtente = idUtente;
+        this.passeggero = passeggero;
         this.numeroBiglietto = numeroBiglietto;
         this.postoAssegnato = postoAssegnato;
-        this.statoPrenotazione = statoPrenotazione.IN_ATTESA;
+        this.statoPrenotazione = StatoPrenotazione.IN_ATTESA;
     }
 
     // GETTERS AND SETTERS
+
+    /**
+     * Metodo Getter per recuperare il codice univoco della prenotzione.
+     * @return il codice della prenotazione
+     */
+    public int getIdPrenotazione() {
+        return idPrenotazione;
+    }
+
+    /**
+     * Metodo Getter per recuperare l'id del volo associato alla prenotazione.
+     * @return l'id del volo
+     */
+    public int getIdVolo() {
+        return idVolo;
+    }
+
+    /**
+     * Metodo Getter per recupare l'id dell'utente che ha effettuato la prenotazione.
+     * @return l'id dell'utente
+     */
+    public int getIdUtente() {
+        return idUtente;
+    }
 
     /**
      * Metodo Setter che permette il codice della prenotazione al biglietto.
