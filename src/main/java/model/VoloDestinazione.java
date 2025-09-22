@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDate;
 
 /**
- * La Classe VoloDestinazione è una specializzazione della classe Volo. Gli oggetti che fanno riferimneto specifico a questa classe
+ * La Classe VoloDestinazione è una specializzazione della classe Volo. Gli oggetti che fanno riferimento specifico a questa classe
  * hanno come destinazione sempre Napoli.
  */
 public class VoloDestinazione extends Volo {

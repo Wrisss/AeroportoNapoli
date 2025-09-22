@@ -18,18 +18,18 @@ public class Passeggero {
     /**
      * Il tipo e il numero di documento.
      */
-    private String documentoIdentità;
+    private String documentoIdentita;
 
     /**
      * Costruttore della classe Passeggero. Accetta tre parametri.
      * @param nomePasseggero il nome del passeggero.
      * @param cognomePasseggero il cognome del passeggero.
-     * @param documentoIdentità il tipo di documento e il numero del documento.
+     * @param documentoIdentita il tipo di documento e il numero del documento.
      */
-    public Passeggero(String nomePasseggero, String cognomePasseggero, String documentoIdentità){
+    public Passeggero(String nomePasseggero, String cognomePasseggero, String documentoIdentita){
         this.nomePasseggero = nomePasseggero;
         this.cognomePasseggero = cognomePasseggero;
-        this.documentoIdentità = documentoIdentità;
+        this.documentoIdentita = documentoIdentita;
     }
 
     /**
@@ -68,17 +68,17 @@ public class Passeggero {
 
     /**
      * Metodo Setter che permette di assegnare a ogni passeggero il documento anagrafico con cui si effettua la prenotazione.
-     * @param documentoIdentità il tipo e il numero del documento.
+     * @param documentoIdentita il tipo e il numero del documento.
      */
-    public void setDocumentoIdentità(String documentoIdentità) {
-        this.documentoIdentità = documentoIdentità;
+    public void setDocumentoIdentita(String documentoIdentita) {
+        this.documentoIdentita = documentoIdentita;
     }
 
     /**
      * Metodo Getter che permette di recuperare il documento anagrafico del passeggero.
      * @return restituisce le specifiche del documento d'identità del passeggero.
      */
-    public String getDocumentoIdentità() {
-        return documentoIdentità;
+    public String getDocumentoIdentita() {
+        return documentoIdentita;
     }
 }

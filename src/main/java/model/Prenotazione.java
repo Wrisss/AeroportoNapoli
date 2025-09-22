@@ -8,17 +8,17 @@ public class Prenotazione {
     /**
      * Il codice univoco di una prenotazione.
      */
-    private int idPrenotazione;
+    private final int idPrenotazione;
 
     /**
      * Il codice del volo collegato alla prenotazione.
      */
-    private int idVolo;
+    private final int idVolo;
 
     /**
-     * Il codice dellutente che ha effettuato la prenotazione.
+     * Il codice dell'utente che ha effettuato la prenotazione.
      */
-    private int idUtente;
+    private final int idUtente;
 
     /**
      * Nome e cognome associato alla prenotazione.
@@ -64,7 +64,7 @@ public class Prenotazione {
     // GETTERS AND SETTERS
 
     /**
-     * Metodo Getter per recuperare il codice univoco della prenotzione.
+     * Metodo Getter per recuperare il codice univoco della prenotazione.
      * @return il codice della prenotazione
      */
     public int getIdPrenotazione() {
@@ -80,7 +80,7 @@ public class Prenotazione {
     }
 
     /**
-     * Metodo Getter per recupare l'id dell'utente che ha effettuato la prenotazione.
+     * Metodo Getter per recuperare l'id dell'utente che ha effettuato la prenotazione.
      * @return l'id dell'utente
      */
     public int getIdUtente() {

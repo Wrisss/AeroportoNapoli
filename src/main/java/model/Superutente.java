@@ -23,7 +23,7 @@ public abstract class Superutente {
      * @param username username per l'autenticazione.
      * @param password password per l'autenticazione.
      */
-    public Superutente(String username, String password){
+    protected Superutente(String username, String password){
         this.username = username;
         this.password = password;
     }

@@ -71,24 +71,24 @@ public interface PostgresDAO {
     List<Prenotazione> getPrenotazioniByUtente(UtenteGenerico utenteGenerico);
 
     /**
-     * Inferfaccia che permette di modificare una prenotazione.
-     * @param prenotazione la prenotazione che si vuole modificare
+     * Interfaccia che permette di modificare una prenotazione.
+     * @param idPrenotazione la prenotazione che si vuole modificare
      * @return true se la modifica è avvenuta con successo, false altrimenti
      */
-    boolean aggiornaPrenotazione(Prenotazione prenotazione);
+    boolean aggiornaPrenotazione(int idPrenotazione, StatoPrenotazione nuovoStato);
 
     /**
      * Interfaccia che permette di recuperare la prenotazione conoscendo l'id del volo.
      * @param codiceVolo l'id del volo richiesta
      * @return la prenotazione associata al volo.
      */
-    Prenotazione getPrenotazioneByIdVolo(int codiceVolo);
+    List<Prenotazione> getPrenotazioniByIdVolo(int codiceVolo, int idUtente);
 
     /**
      * Interfaccia che permette di recuperare una prenotazione tramite i dati di un passeggero.
-     * @param passeggero i dati del passeggero per ricercare
+     * @param nomePasseggero il nome del passeggero
      * @return la prenotazione associata al passeggero.
      */
-    Prenotazione GetPrenotazioneByPasseggero(Passeggero passeggero);
+    List<Prenotazione> getPrenotazioniByPasseggero(String nomePasseggero, int idUtente);
 
 }

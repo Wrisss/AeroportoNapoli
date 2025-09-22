@@ -13,7 +13,7 @@ public class Amministratore extends Superutente {
     private final String ruolo = "Amministratore";
 
     /**
-     * Costruttore della classe AMMINISTRATORE. Stessi argomenti presi in input della superclasse a cui fa riferimento.
+     * Costruttore della classe AMMINISTRATORE. Stessi argomenti presi in ingresso della superclasse a cui fa riferimento.
      * @param username l'username per accedere al sistema.
      * @param password la password per accedere al sistema.
      */

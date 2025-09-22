@@ -271,8 +271,8 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
 
     /**
      * Metodo che permette di recuperare tutte le prenotazioni associate a utente.
-     * Questo metodo richiama il metodo di utilità 'creaPasseggeroDaNomeCompleto'.
-     * L'implementazione di tale metodo viene documentata più avanti.
+     * Questo metodo richiama il metodo di utilità 'creaPasseggeroDaNomeCompleto'
+     * (l'implementazione di tale metodo viene documentata più avanti).
      * @param utenteGenerico l'utente generico di cui si voglio recuperare le prenotazioni
      * @return l'elenco completo delle prenotazioni associate a un utente.
      */
@@ -287,7 +287,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                 "ORDER BY idprenotazione DESC";
 
         try(Connection conn = ConnessioneDatabase.getInstance().connection;
-            PreparedStatement stmt = conn.prepareStatement(query);) {
+            PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, utenteGenerico.getUsername());
 
@@ -318,48 +318,127 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
         return elencoPrenotazioni;
     }
 
+    /**
+     * Metodo che permette di aggiornare lo stato di una prenotazione.
+     * @param idPrenotazione l'id prenotazione che si vuole modificare
+     * @param nuovoStato 'CONFERMATA' o 'CANCELLATA'.
+     * @return true se l'operazione è andata a buon fine altrimenti false.
+     */
     @Override
-    public boolean aggiornaPrenotazione(Prenotazione prenotazione) {
-
-        String query = ""
+    public boolean aggiornaPrenotazione(int idPrenotazione, StatoPrenotazione nuovoStato) {
+        String query = "UPDATE PRENOTAZIONE SET statopren = ? WHERE idPrenotazione = ?";
 
         try (Connection conn = ConnessioneDatabase.getInstance().connection;
              PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, nuovoStato.name());
+            stmt.setInt(2, idPrenotazione);
+
+            int righeAggiornate = stmt.executeUpdate();
+            if (righeAggiornate > 0){
+                System.out.println("Prenotazione aggiornata con successo.");
+            return true;}
+            else { System.out.println("Impossibile aggiornare la prenotazione.");
+                return false;}
+
         } catch (SQLException e) {
-            System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
+            System.out.println("Errore durante l'aggiornamento della prenotazione: " + e.getMessage());
             e.printStackTrace();
-        }
-        return true;
+            return false;}
     }
 
+    /**
+     * Metodo che permette di recuperare le prenotazioni associate a un volo conoscendo il codice del volo-
+     * @param codiceVolo l'id del volo richiesto
+     * @param idUtente l'id dell'utente associato al volo
+     * @return la lista con tutte le prenotazioni che soddisfano i criteri di ricerca.
+     */
     @Override
-    public Prenotazione getPrenotazioneByIdVolo(int codiceVolo){
+    public List<Prenotazione> getPrenotazioniByIdVolo(int codiceVolo, int idUtente){
+        List<Prenotazione> elencoPrenotazioniTemp = new ArrayList<>();
 
-        String query = ""
+        String query = "SELECT p.idPrenotazione, p.idVolo, p.idUtente, p.nomepasseggero," +
+                "p.numerobiglietto, p.postoassegnato, p.statopren FROM PRENOTAZIONE p " +
+                "WHERE p.codicevolo = ? AND p.idutente = ?";
 
             try(Connection conn = ConnessioneDatabase.getInstance().connection;
-                PreparedStatement stmt = conn.prepareStatement(query)){}
+                PreparedStatement stmt = conn.prepareStatement(query)){
+
+                stmt.setInt(1, codiceVolo);
+                stmt.setInt(2, idUtente);
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    int idPrenotazione = rs.getInt("idPrenotazione");
+                    int idVolo = rs.getInt("idVolo");
+
+                    String nomeCompleto = rs.getString("NomePasseggero");
+                    Passeggero passeggero = creaPasseggeroDaNomeCompleto(nomeCompleto);
+
+                    int numeroBiglietto = rs.getInt("NumeroBiglietto");
+                    int postoAssegnato = rs.getInt("PostoAssegnato");
+                    String statoString = rs.getString("StatoPren");
+                    StatoPrenotazione statoPren = StatoPrenotazione.valueOf(statoString);
+
+                    Prenotazione prenotazione = new Prenotazione(idPrenotazione, idVolo, idUtente,
+                            passeggero, numeroBiglietto, postoAssegnato, statoPren);
+                    elencoPrenotazioniTemp.add(prenotazione);
+                }
+            }
             catch (SQLException e){System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
                 e.printStackTrace();
         }
+            return elencoPrenotazioniTemp;}
 
-    }
-
+    /**
+     * Metodo che permette di recuperare le prenotazioni associati al nome del passeggero
+     * @param nomePasseggero il nome del passeggero
+     * @param idUtente l'id utente associato alla prenotazione
+     * @return la lista delle prenotazioni che soddisfano i criteri di ricerca.
+     */
     @Override
-    public Prenotazione GetPrenotazioneByPasseggero(Passeggero passeggero){
+    public List<Prenotazione> getPrenotazioniByPasseggero(String nomePasseggero, int idUtente){
+        List<Prenotazione> elencoPrenotazioniTemp = new ArrayList<>();
 
-        String query = ""
+        String query = "SELECT p.idPrenotazione, p.idVolo, p.idUtente, p.nomePasseggero," +
+                "p.numeroBiglietto, p.postoAssegnato, p.statopren FROM PRENOTAZIONE p " +
+                "WHERE LOWER(p.nomePasseggero) = LOWER(?) AND p.idUtente = ?";
+
             try(Connection conn = ConnessioneDatabase.getInstance().connection;
-                PreparedStatement stmt = conn.prepareStatement(query)){}
-            catch (SQLException e){System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
-                e.printStackTrace();
-        }
+                PreparedStatement stmt = conn.prepareStatement(query)){
 
+                stmt.setString(1, nomePasseggero);
+                stmt.setInt(2, idUtente);
+
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()){
+                    int idPrenotazione = rs.getInt("idPrenotazione");
+                    int idVolo = rs.getInt("idVolo");
+
+                    String nomeCompleto = rs.getString("NomePasseggero");
+                    Passeggero passeggero = creaPasseggeroDaNomeCompleto(nomeCompleto);
+
+                    int numeroBiglietto = rs.getInt("NumeroBiglietto");
+                    int postoAssegnato = rs.getInt("PostoAssegnato");
+                    String statoString = rs.getString("StatoPren");
+                    StatoPrenotazione statoPren = StatoPrenotazione.valueOf(statoString);
+
+                    Prenotazione prenotazione = new Prenotazione(idPrenotazione, idVolo, idUtente,
+                            passeggero, numeroBiglietto, postoAssegnato, statoPren);
+                    elencoPrenotazioniTemp.add(prenotazione);
+                }
+            }
+            catch (SQLException e){System.out.println("Errore durante la creazione della prenotazione: " + e.getMessage());
+                e.printStackTrace();}
+
+    return elencoPrenotazioniTemp;
     }
 
 
     /**
-     * Metodo che permette di trasformare una stringa contenente nome e cognome estratta dal database, in un oggetto
+     * Metodo Utility che permette di trasformare una stringa contenente nome e cognome estratta dal database, in un oggetto
      * passeggero definito nella classe Passeggero.
      * @param nomeCompleto il nome e cognome così come sono salvati sul database
      * @return l'oggetto passeggero.
@@ -376,6 +455,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
         String documentoIdentita = "";
         return new Passeggero(nomePasseggero, cognomePasseggero, documentoIdentita);
     }
+
 
 }
 

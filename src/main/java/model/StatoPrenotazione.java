@@ -18,5 +18,5 @@ public enum StatoPrenotazione {
     /**
      * La prenotazione è stata cancellata dall'utente.
      */
-    CANCELLATA;
+    CANCELLATA
 }

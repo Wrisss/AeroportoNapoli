@@ -20,5 +20,5 @@ public enum StatoVolo {
     /**
      * Volo cancellato.
      */
-    CANCELLATO;
+    CANCELLATO
 }

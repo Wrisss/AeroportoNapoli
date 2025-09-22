@@ -15,7 +15,7 @@ public class UtenteGenerico extends Superutente {
     //COSTRUTTORE
 
     /**
-     * Costruttore della classe UtenteGenerico. Stessi argomenti richiesti in input della superclasse a cui fa riferimento.
+     * Costruttore della classe UtenteGenerico. Stessi argomenti richiesti in ingresso della superclasse a cui fa riferimento.
      * @param username l'username per accedere al sistema.
      * @param password la password per accedere al sistema.
      */

@@ -17,7 +17,7 @@ public class Volo {
     /**
      * L'id dell'amministratore che ha aggiunto il volo.
      */
-    private int idUtenteInsert;
+    final private int idUtenteInsert;
 
     /**
      * La compagnia aerea che predispone il volo.
