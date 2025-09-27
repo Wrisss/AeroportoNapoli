@@ -20,10 +20,9 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     //COSTRUTTORE
 
     /**
-     * Costruttore privato. Non è possibile istanziare oggetti della classe.
+     * Costruttore della classe Implementazione PostegresDAO.
      */
-    private ImplementazionePostgresDAO() {
-    }
+    public ImplementazionePostgresDAO(){}
 
     /**
      * Metodo che permette di recuperare dal database l'utente richiesto tramite username e password.
@@ -83,13 +82,14 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      */
     @Override
     public boolean insertUtenteGenerico(UtenteGenerico utenteGenerico) {
-        String query = "INSERT INTO Superutente (nomeutente, ruolo, password) VALUES (?, ?, ?)";
+        String query = "INSERT INTO Superutente (nomeutente, password, ruolo) VALUES (?, ?, ?)";
 
         try (Connection conn = ConnessioneDatabase.getInstance().connection;
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, utenteGenerico.getUsername());
-            stmt.setString(2, "utente");
-            stmt.setString(3, utenteGenerico.getPassword());
+            stmt.setString(2, utenteGenerico.getPassword());
+            stmt.setString(3, "utente");
+
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Errore durante la registrazione dell'utente: " +
@@ -188,9 +188,9 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      */
     @Override
     public boolean updateVolo(Volo volo){
-        String query = "UPDATE volo SET v.compaerea = ?, v.appart = ?, v.apdest = ?, " +
-                "v.dataorapart = ?, v.dataoraarrivo = ?, v.gateassegnato = ?, v.ritardo= ?," +
-                "v.statovolo = ? WHERE codicevolo = ?";
+        String query = "UPDATE volo SET compaerea = ?, appart = ?, apdest = ?, " +
+                "dataorapart = ?, dataoraarrivo = ?, gateassegnato = ?, ritardo= ?," +
+                "statovolo = ? WHERE codicevolo = ?";
     try (Connection conn = ConnessioneDatabase.getInstance().connection;
          PreparedStatement stmt = conn.prepareStatement(query)){
              stmt.setString(1, volo.getCompagniaAerea());
@@ -219,7 +219,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      */
     @Override
     public boolean modificaGate(int nuovogate, int codicevolo){
-        String query = "UPDATE volo SET gate = ? WHERE codicevolo = ? AND aeroporto_partenza = 'Napoli'";
+        String query = "UPDATE volo SET gateassegnato = ? WHERE codicevolo = ? AND aeroporto_partenza = 'Napoli'";
 
         try(Connection conn = ConnessioneDatabase.getInstance().connection;
             PreparedStatement stmt = conn.prepareStatement(query)){
@@ -283,7 +283,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
         String query = "SELECT p.idPrenotazione, p.idVolo, p.idUtente, p.NomePasseggero, " +
                 "p.NumeroBiglietto, p.PostoAssegnato, p.StatoPren " +
                 "FROM PRENOTAZIONE p " +
-                "JOIN SUPERUTENTE su ON p.idutente = su.idutente WHERE su.NomeUtente = ? " +
+                "JOIN SUPERUTENTE su ON p.idUtente = su.idutente WHERE su.NomeUtente = ? " +
                 "ORDER BY idprenotazione DESC";
 
         try(Connection conn = ConnessioneDatabase.getInstance().connection;
@@ -392,7 +392,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
             return elencoPrenotazioniTemp;}
 
     /**
-     * Metodo che permette di recuperare le prenotazioni associati al nome del passeggero
+     * Metodo che permette di recuperare le prenotazioni associate al nome del passeggero
      * @param nomePasseggero il nome del passeggero
      * @param idUtente l'id utente associato alla prenotazione
      * @return la lista delle prenotazioni che soddisfano i criteri di ricerca.
