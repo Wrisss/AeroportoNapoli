@@ -3,37 +3,57 @@ package gui;
 import controller.Controller;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
-/**
- * La classe Homepage implementa la schermata di benvenuto dell'applicazione aeroportuale e ne rappresenta il punto di ingresso.
- * La schermata Homepage permette all'utente di accedere al sistema tramite il login oppure permette la registrazione di nuovi utenti.
- * (Gli amministratori non possono registrarsi, le credenziali vengono fornite separatamente), tramite la digitazione
- * dei pulsati etichettati.
- */
 public class Homepage extends JFrame {
 
-    /**
-     * Nella classe Homepage dell'applicativo è presente un riferimento hard-coded alla classe Controller che gestisce
-     * interamente la logica dell'applicazione.
-     * L'inserimento di un riferimento alla classe Controller, tra gli attributi
-     * della classe Homepage, crea un legame forte tra le due classi che possono scambiarsi il controllo vicendevolmente.
-     */
     private Controller controller;
 
-    private JPanel mainPanel;
+    private JPanel HomepagePanel;
 
-    /**
-     * Costruttore della Homepage.  Viene passato come parametro un riferimento all'oggetto controller della classe Controller
-     * Il passaggio come parametro di un riferimento a un'altra classe è una tecnica che permette la comunicazione tra
-     * due oggetti di classi distinti –Dependency Injection tramite costruttore–.
-     * @param controller il controller unico della classe Controller.
-     */
-    public Homepage(Controller controller){
+    private JTextArea BenvenutoMsg;
+    private JButton ACCEDIButton;
+    private JButton REGISTRATIButton;
+
+    public Homepage(Controller controller) {
         this.controller = controller;
 
-    }
-}
+        setTitle("Aeroporto di Napoli - Homepage");
+        setSize(700, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        add(HomepagePanel);
 
+
+        ACCEDIButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                PaginaLogin paginaLogin = new PaginaLogin(controller);
+                paginaLogin.setVisible(true);
+
+
+
+            }
+        });
+
+        REGISTRATIButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                PaginaRegistrazione paginaRegistrazione = new PaginaRegistrazione(controller);
+                paginaRegistrazione.setVisible(true);
+
+
+            }
+        });
+
+    }
+
+
+}

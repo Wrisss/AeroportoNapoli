@@ -24,7 +24,7 @@ public class ConnessioneDatabase {
     /**
      * URL di connessione al database.
      */
-    private String url = "jdbc:postgresql://localhost:5433/AeroportoDiNapoli";
+    private String url = "jdbc:postgresql://localhost:1111/AeroportoDiNapoli";
 
     /**
      * Nome utente per l'accesso al database.
@@ -34,7 +34,7 @@ public class ConnessioneDatabase {
     /**
      * Password per l'accesso al database.
      */
-	private String password = "gossamer";
+	private String password = "forzanapoli";
 
     /**
      * Nome del driver JDBC per PostgreSQL.
