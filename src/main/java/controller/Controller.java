@@ -55,7 +55,7 @@ public class Controller {
      * @return true se l'inserimento è andato a buon fine, altrimenti false.
      * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#insertVolo(Volo)} 
      */
-    public boolean voloInserito(Volo volo){
+    public boolean inserisciVolo(Volo volo){
         return dao.insertVolo(volo);
     }
 
@@ -65,7 +65,7 @@ public class Controller {
      * @return true se la modifica è andata a buon fine, false altrimenti.
      * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#updateVolo(Volo)}
      */
-    public boolean voloModificato(Volo volo){
+    public boolean modificaVolo(Volo volo){
         return dao.updateVolo(volo);
     }
 
@@ -76,7 +76,7 @@ public class Controller {
      * @return true se la modifica è andata a buon fine, false altrimenti.
      * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#modificaGate(int, int)} 
      */
-    public boolean gateModificato(int nuovogate, int codicevolo){
+    public boolean modificaGate(int nuovogate, int codicevolo){
         return dao.modificaGate(nuovogate, codicevolo);
     }
 
@@ -87,7 +87,7 @@ public class Controller {
      * @return true se la registrazione è andata a buon fine, false altrimenti.
      * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#insertUtenteGenerico(UtenteGenerico)}
      */
-    public boolean utenteRegistrato(UtenteGenerico utenteGenerico){
+    public boolean registraUtente(UtenteGenerico utenteGenerico){
         return dao.insertUtenteGenerico(utenteGenerico);
     }
 
@@ -99,7 +99,7 @@ public class Controller {
      * @return true se il volo è stato prenotato con successo, false altrimenti.
      * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#prenotaVolo(int, String, int)}
      */
-    public boolean voloPrenotato(int codiceVolo, String nomePasseggero, int postoAssegnato){
+    public boolean prenotaVoloController(int codiceVolo, String nomePasseggero, int postoAssegnato){
         return dao.prenotaVolo(codiceVolo, nomePasseggero, postoAssegnato);
     }
 
@@ -120,7 +120,7 @@ public class Controller {
      * @return true se l'aggiornamento è andato a buon fine, false altrimenti.
      * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#aggiornaPrenotazione(int, StatoPrenotazione)} 
      */
-    public boolean prenotazioneAggiornata(int idPrenotazione, StatoPrenotazione nuovostato){
+    public boolean aggiornaPrenotazioneController(int idPrenotazione, StatoPrenotazione nuovostato){
         return dao.aggiornaPrenotazione(idPrenotazione, nuovostato);
     }
 

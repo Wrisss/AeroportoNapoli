@@ -40,7 +40,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     @Override
     public Superutente getUtenteByCredentials(String username, String password) {
         // Preparazione della query
-        String query = "SELECT idutente, nomeutente, ruolo, password " +
+        String query = "SELECT idutente, nomeutente, password, ruolo " +
                 "FROM superutente WHERE nomeutente = ? AND password = ?";
 
         try (Connection conn = ConnessioneDatabase.getInstance().connection;
