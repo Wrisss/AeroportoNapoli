@@ -4,6 +4,8 @@ import dao.PostgresDAO;
 import implementazionePostgresDAO.ImplementazionePostgresDAO;
 import model.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -35,8 +37,7 @@ public class Controller {
      * La logica che permette la distinzione dei ruoli è implementata nel metodo: {@link ImplementazionePostgresDAO#getUtenteByCredentials(String, String)}
      */
     public Superutente login(String username, String password){
-        Superutente utenteLoggato = dao.getUtenteByCredentials(username, password);
-        return utenteLoggato;
+        return dao.getUtenteByCredentials(username, password);
     }
 
     /**
@@ -49,14 +50,36 @@ public class Controller {
     }
 
     // METODO DISPONIBILI SOLO AGLI AMMINISTRATORI
+
     /**
-     * Metodo che permette di inserire un nuovo volo nel database.
-     * @param volo il volo da aggiungere al database con le sue specifiche
-     * @return true se l'inserimento è andato a buon fine, altrimenti false.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#insertVolo(Volo)} 
+     *
+     * @param codiceVolo
+     * @param idUtenteInsert
+     * @param compagniaAerea
+     * @param aeroportoOrigine
+     * @param aeroportoDestinazione
+     * @param dataOraPartenza
+     * @param dataOraArrivo
+     * @return
      */
-    public boolean inserisciVolo(Volo volo){
-        return dao.insertVolo(volo);
+    public boolean inserisciNuovoVolo(int codiceVolo, int idUtenteInsert,
+                                      String compagniaAerea, String aeroportoOrigine,
+                                      String aeroportoDestinazione,
+                                      LocalDateTime dataOraPartenza,
+                                      LocalDateTime dataOraArrivo) {
+
+        Volo nuovoVolo = new Volo(
+                codiceVolo,
+                idUtenteInsert,
+                compagniaAerea,
+                aeroportoOrigine,
+                aeroportoDestinazione,
+                dataOraPartenza,
+                dataOraArrivo,
+                StatoVolo.PROGRAMMATO,
+                0
+        );
+        return dao.insertVolo(nuovoVolo);
     }
 
     /**
@@ -83,13 +106,14 @@ public class Controller {
     // METODI DISPONIBILI SOLO AGLI UTENTI GENERICI
     /**
      * Metodo che permette a utente di registrarsi nel sistema.
-     * @param utenteGenerico l'oggetto utente che si vuole aggiungere al database
+     * @param username il nome scelto dall'utente
+     * @param password la password scelta dall'utente
      * @return true se la registrazione è andata a buon fine, false altrimenti.
      * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#insertUtenteGenerico(UtenteGenerico)}
      */
-    public boolean registraUtente(UtenteGenerico utenteGenerico){
-        return dao.insertUtenteGenerico(utenteGenerico);
-    }
+    public boolean registraUtente(String username, String password){
+        UtenteGenerico utenteRegistrato = new UtenteGenerico(username, password);
+        return dao.insertUtenteGenerico(utenteRegistrato);}
 
     /**
      * Metodo che permette di prenotare un volo. Ciò consente di creare una prenotazione univoca associata al volo desiderato.

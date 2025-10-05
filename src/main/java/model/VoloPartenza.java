@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * La Classe VoloPartenza è una specializzazione della classe Volo. La peculiarità di questa classe è che
@@ -28,7 +28,7 @@ public class VoloPartenza extends Volo{
      */
     public VoloPartenza(int codiceVolo, int idUtenteInsert, String compagniaAerea,
                         String aeroportoOrigine, String aeroportoDestinazione,
-                        LocalDate dataOraPartenza, LocalDate dataOraArrivo, StatoVolo statoVolo,
+                        LocalDateTime dataOraPartenza, LocalDateTime dataOraArrivo, StatoVolo statoVolo,
                         int ritardo, int gateAssegnato){
         super(codiceVolo, idUtenteInsert, compagniaAerea, "NAPOLI", aeroportoDestinazione, dataOraPartenza, dataOraArrivo,
                 statoVolo, ritardo);

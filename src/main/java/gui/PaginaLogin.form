@@ -55,13 +55,14 @@
               <text value="Password: "/>
             </properties>
           </component>
-          <component id="8b75f" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="8b75f" class="javax.swing.JTextField" binding="usernameTextField">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties>
+              <font size="18"/>
               <toolTipText value="Inserire il proprio username"/>
             </properties>
           </component>
@@ -72,6 +73,7 @@
               </grid>
             </constraints>
             <properties>
+              <font size="18"/>
               <toolTipText value="Inserire la propria password"/>
             </properties>
           </component>
@@ -87,19 +89,24 @@
         <children>
           <component id="c3f81" class="javax.swing.JButton" binding="TORNAINDIETROButton" default-binding="true">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="20" height="20"/>
+              </grid>
             </constraints>
             <properties>
-              <font size="26"/>
+              <font size="24"/>
               <text value="TORNA INDIETRO"/>
             </properties>
           </component>
-          <component id="f29c5" class="javax.swing.JButton" binding="button2" default-binding="true">
+          <component id="f29c5" class="javax.swing.JButton" binding="LOGINButton">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="30" height="30"/>
+              </grid>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <font size="24"/>
+              <text value="LOGIN"/>
             </properties>
           </component>
         </children>

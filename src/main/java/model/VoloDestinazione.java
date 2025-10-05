@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * La Classe VoloDestinazione è una specializzazione della classe Volo. Gli oggetti che fanno riferimento specifico a questa classe
@@ -24,7 +24,7 @@ public class VoloDestinazione extends Volo {
      */
     public VoloDestinazione(int codiceVolo, int idUtenteInsert, String compagniaAerea,
                             String aeroportoOrigine, String aeroportoDestinazione,
-                            LocalDate dataOraPartenza, LocalDate dataOraArrivo, StatoVolo statoVolo,
+                            LocalDateTime dataOraPartenza, LocalDateTime dataOraArrivo, StatoVolo statoVolo,
                             int ritardo, int gateAssegnato) {
         super(codiceVolo, idUtenteInsert, compagniaAerea, aeroportoOrigine, "NAPOLI", dataOraPartenza, dataOraArrivo,
                 statoVolo, ritardo);

@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * La classe VOLO è il centro logico dell'intero sistema.
@@ -37,12 +37,12 @@ public class Volo {
     /**
      * Il giorno e l'orario di partenza.
      */
-    private LocalDate oraDataPartenza;
+    private LocalDateTime oraDataPartenza;
 
     /**
      * Il giorno e l'orario di arrivo.
      */
-    private LocalDate oraDataArrivo;
+    private LocalDateTime oraDataArrivo;
 
     /**
      * Lo stato del Volo definito come un valore disponibile prefissato.
@@ -69,7 +69,7 @@ public class Volo {
      * @param ritardo                l'eventuale ritardo. All'inizio il valore è sempre '0'
      */
     public Volo(int codiceVolo, int idUtenteInsert, String compagniaAerea, String aeroportoOrigine, String aeroportoDestinazione,
-                LocalDate oraDataPartenza, LocalDate oraDataArrivo, StatoVolo statoVolo, int ritardo) {
+                LocalDateTime oraDataPartenza, LocalDateTime oraDataArrivo, StatoVolo statoVolo, int ritardo) {
         this.codiceVolo = codiceVolo;
         this.idUtenteInsert = idUtenteInsert;
         this.compagniaAerea = compagniaAerea;
@@ -159,7 +159,7 @@ public class Volo {
      * Metodo Setter per assegnare data e ora di partenza.
      * @param oraDataPartenza data e ora di partenza di un volo.
      */
-    public void setOraDataPartenza(LocalDate oraDataPartenza) {
+    public void setOraDataPartenza(LocalDateTime oraDataPartenza) {
         this.oraDataPartenza = oraDataPartenza;
     }
 
@@ -167,7 +167,7 @@ public class Volo {
      * Metodo Getter per recuperare la data e l'orario di partenza.
      * @return restituisce la data e l'ora di partenza del volo.
      */
-    public LocalDate getOraDataPartenza() {
+    public LocalDateTime getOraDataPartenza() {
         return oraDataPartenza;
     }
 
@@ -175,7 +175,7 @@ public class Volo {
      * Metodo Setter per specificare la data e l'orario di arrivo.
      * @param oraDataArrivo data e ora di arrivo del volo.
      */
-    public void setOraDataArrivo(LocalDate oraDataArrivo) {
+    public void setOraDataArrivo(LocalDateTime oraDataArrivo) {
         this.oraDataArrivo = oraDataArrivo;
     }
 
@@ -183,7 +183,7 @@ public class Volo {
      * Metodo Getter per recuperare l'orario e la data di arrivo.
      * @return data e ora di atterraggio del volo.
      */
-    public LocalDate getOraDataArrivo() {
+    public LocalDateTime getOraDataArrivo() {
         return oraDataArrivo;
     }
 

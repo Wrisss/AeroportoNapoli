@@ -23,6 +23,11 @@ public class UtenteGenerico extends Superutente {
         super(username, password);
     }
 
+    /**
+     * Metodo Getter che permette di recuperare il ruolo della classe. Il ruolo è tuttavia sempre impostato
+     * con il valore 'utente' questo perché non deve essere modificato.
+     * @return il ruolo utente.
+     */
     public String getRuolo() {
         return ruolo;
     }

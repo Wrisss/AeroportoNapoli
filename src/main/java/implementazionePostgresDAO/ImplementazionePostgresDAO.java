@@ -5,7 +5,7 @@ import database.ConnessioneDatabase;
 import java.sql.*;
 
 import model.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -51,9 +51,10 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
             // Invio della query al database
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    String ruoloDatabase = rs.getString("ruolo");
+                    int idUtenteDb = rs.getInt("idutente");
                     String usernameDb = rs.getString("nomeutente");
                     String passwordDb = rs.getString("password");
+                    String ruoloDatabase = rs.getString("ruolo");
 
                     // Processazione dei risultati.
                     if ("amministratore".equalsIgnoreCase(ruoloDatabase)) {
@@ -119,8 +120,8 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                 String compagniaAerea = rs.getString("compaerea");
                 String aeroportoOrigine = rs.getString("appart");
                 String aeroportoDestinazione = rs.getString("apdest");
-                LocalDate dataOraPartenza = rs.getDate("dataorapart").toLocalDate();
-                LocalDate dataOraArrivo = rs.getDate("dataoraarrivo").toLocalDate();
+                LocalDateTime dataOraPartenza = rs.getTimestamp("dataorapart").toLocalDateTime();
+                LocalDateTime dataOraArrivo = rs.getTimestamp("dataoraarrivo").toLocalDateTime();
                 int ritardo = rs.getInt("ritardo");
                 StatoVolo statoVolo = StatoVolo.valueOf(rs.getString("statovolo"));
 
@@ -157,11 +158,11 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                 stmt.setString(3, volo.getCompagniaAerea());
                 stmt.setString(4, volo.getAeroportoOrigine());
                 stmt.setString(5, volo.getAeroportoDestinazione());
-                stmt.setDate(6, Date.valueOf(volo.getOraDataPartenza()));
-                stmt.setDate(7, Date.valueOf(volo.getOraDataArrivo()));
+                stmt.setTimestamp(6, Timestamp.valueOf(volo.getOraDataPartenza()));
+                stmt.setTimestamp(7, Timestamp.valueOf(volo.getOraDataArrivo()));
                 stmt.setInt(8, 0);
                 stmt.setInt(9, volo.getRitardo());
-                stmt.setString(10, volo.getStatoVolo().toString());
+                stmt.setString(10, volo.getStatoVolo().toString().toLowerCase());
 
                 int rowsAffected = stmt.executeUpdate();
                 if (rowsAffected == 0) {
@@ -196,8 +197,8 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
              stmt.setString(1, volo.getCompagniaAerea());
              stmt.setString(2, volo.getAeroportoOrigine());
              stmt.setString(3, volo.getAeroportoDestinazione());
-             stmt.setDate(4, Date.valueOf(volo.getOraDataPartenza()));
-             stmt.setDate(5, Date.valueOf(volo.getOraDataArrivo()));
+             stmt.setTimestamp(4, Timestamp.valueOf(volo.getOraDataPartenza()));
+             stmt.setTimestamp(5, Timestamp.valueOf(volo.getOraDataArrivo()));
              stmt.setInt(6,0);
              stmt.setInt(7, volo.getRitardo());
              stmt.setString(8, volo.getStatoVolo().toString());
