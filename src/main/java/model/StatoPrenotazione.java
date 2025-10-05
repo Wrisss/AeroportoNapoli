@@ -8,15 +8,15 @@ public enum StatoPrenotazione {
      * Valore di default alla creazione della prenotazione. Indica che la prenotazione è stata creata ma deve essere
      * confermata per effettuare il check-in.
      */
-    IN_ATTESA,
+    in_attesa,
 
     /**
      * La prenotazione è stata confermata. Vale come check-in per l'imbarco.
      */
-    CONFERMATA,
+    confermata,
 
     /**
      * La prenotazione è stata cancellata dall'utente.
      */
-    CANCELLATA
+    cancellata
 }

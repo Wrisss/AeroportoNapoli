@@ -4,21 +4,21 @@ public enum StatoVolo {
     /**
      * Volo Programmato. Questo è il valore di default assegnato a ogni nuovo volo appena creato,
      */
-    PROGRAMMATO,
+    programmato,
 
     /**
      * Volo decollato e attualmente in volo.
      */
-    IN_VOLO,
+    in_volo,
 
     /**
      * Volo che è arrivato a destinazione.
      *
      */
-    ARRIVATO,
+    arrivato,
 
     /**
      * Volo cancellato.
      */
-    CANCELLATO
+    cancellato
 }

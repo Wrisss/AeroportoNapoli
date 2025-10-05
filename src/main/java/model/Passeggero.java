@@ -32,6 +32,9 @@ public class Passeggero {
         this.documentoIdentita = documentoIdentita;
     }
 
+    public String getNomeCompletoPasseggero(){
+        return this.nomePasseggero + " " + this.cognomePasseggero;
+    }
     /**
      * Metodo Setter che permette di assegnare, alla prenotazione, il nome di un passeggero,
      * anche diverso da chi ha creato la prenotazione.

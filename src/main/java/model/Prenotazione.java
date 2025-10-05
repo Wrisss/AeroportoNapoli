@@ -28,7 +28,7 @@ public class Prenotazione {
     /**
      * Il codice identificato di ogni biglietto associato alla prenotazione.
      */
-    private int numeroBiglietto;
+    private String numeroBiglietto;
 
     /**
      * Il posto assegnato sull'aereo. Capienza di ogni aereo: MAX 200 persone.
@@ -51,14 +51,14 @@ public class Prenotazione {
      * @param statoPrenotazione lo stato in cui si trova la prenotazione.
      */
     public Prenotazione(int idPrenotazione, int idVolo, int idUtente, Passeggero passeggero,
-                        int numeroBiglietto, int postoAssegnato, StatoPrenotazione statoPrenotazione){
+                        String numeroBiglietto, int postoAssegnato, StatoPrenotazione statoPrenotazione){
         this.idPrenotazione = idPrenotazione;
         this.idVolo = idVolo;
         this.idUtente = idUtente;
         this.passeggero = passeggero;
         this.numeroBiglietto = numeroBiglietto;
         this.postoAssegnato = postoAssegnato;
-        this.statoPrenotazione = StatoPrenotazione.IN_ATTESA;
+        this.statoPrenotazione = statoPrenotazione;
     }
 
     // GETTERS AND SETTERS
@@ -87,11 +87,22 @@ public class Prenotazione {
         return idUtente;
     }
 
+    public void setPasseggero(Passeggero passeggero) {
+        this.passeggero = passeggero;
+    }
+
+    public Passeggero getPasseggero() {
+        return passeggero;
+    }
+
     /**
      * Metodo Setter che permette il codice della prenotazione al biglietto.
      * @param numeroBiglietto il codice numerico del biglietto.
      */
-    public void setNumeroBiglietto(int numeroBiglietto) {
+
+
+
+    public void setNumeroBiglietto(String numeroBiglietto) {
         this.numeroBiglietto = numeroBiglietto;
     }
 
@@ -99,7 +110,7 @@ public class Prenotazione {
      * Metodo Getter che permette di recuperare il numero della prenotazione e del biglietto.
      * @return restituisce il codice numero del biglietto.
      */
-    public int getNumeroBiglietto() {
+    public String getNumeroBiglietto() {
         return numeroBiglietto;
     }
 

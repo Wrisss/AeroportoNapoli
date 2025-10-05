@@ -21,6 +21,7 @@ public class PaginaLogin extends JFrame {
      * Riferimento alla Homepage per ritornare alla scherma di accesso.
      */
     private Homepage homepage;
+    private UtenteGenerico utenteGenerico;
 
     private JPanel LoginPanel;
     private JPanel panelTop;
@@ -105,7 +106,7 @@ public class PaginaLogin extends JFrame {
 
                     } else if (utenteLoggato instanceof UtenteGenerico) {
                         PaginaUtenteGenerico paginaUtenteGenerico = new PaginaUtenteGenerico(controller,
-                                PaginaLogin.this, username);
+                                PaginaLogin.this, (UtenteGenerico) utenteLoggato);
                         paginaUtenteGenerico.setVisible(true);
                         dispose();}
                 }

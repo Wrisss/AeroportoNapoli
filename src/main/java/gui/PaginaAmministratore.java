@@ -14,7 +14,6 @@ public class PaginaAmministratore extends JFrame {
     private Controller controller;
     private PaginaLogin paginaLogin;
     private String username;
-    private int idAmministratore;
     private ElencoVoliAmm elencoVoli;
 
 
@@ -30,7 +29,6 @@ public class PaginaAmministratore extends JFrame {
                                 String username) {
         this.controller = controller;
         this.username = username;
-        this.idAmministratore = idAmministratore;
 
         setTitle("Aeroporto Di Napoli - Amministratore");
         setSize(700, 500);
@@ -46,7 +44,7 @@ public class PaginaAmministratore extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 ElencoVoliAmm elencoVoliAmm = new ElencoVoliAmm(controller, PaginaAmministratore.this);
-
+                elencoVoliAmm.setVisible(true);
             }
         });
 
@@ -55,14 +53,13 @@ public class PaginaAmministratore extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Creo una finestra di dialogo modale
                 JDialog dialogInserisciVolo = new JDialog(PaginaAmministratore.this,
                         "Inserisci Nuovo Volo", true);
                 dialogInserisciVolo.setSize(700, 600);
                 dialogInserisciVolo.setLocationRelativeTo(PaginaAmministratore.this);
                 dialogInserisciVolo.setLayout(new GridLayout(10, 2, 10, 10));
 
-                // Creo i campi per ogni attributo del Volo
+
                 JLabel labelCodice = new JLabel("Codice Volo:");
                 JTextField textCodiceVolo = new JTextField();
 
@@ -92,22 +89,28 @@ public class PaginaAmministratore extends JFrame {
                 // Aggiungo tutti i componenti alla finestra
                 dialogInserisciVolo.add(labelCodice);
                 dialogInserisciVolo.add(textCodiceVolo);
+
                 dialogInserisciVolo.add(labelIdUtente);
                 dialogInserisciVolo.add(textIdUtente);
+
                 dialogInserisciVolo.add(labelCompagnia);
                 dialogInserisciVolo.add(textCompagniaAerea);
+
                 dialogInserisciVolo.add(labelOrigine);
                 dialogInserisciVolo.add(textAeroportoOrigine);
+
                 dialogInserisciVolo.add(labelDestinazione);
                 dialogInserisciVolo.add(textAeroportoDestinazione);
+
                 dialogInserisciVolo.add(labelDataPartenza);
                 dialogInserisciVolo.add(textDataPartenza);
+
                 dialogInserisciVolo.add(labelDataArrivo);
                 dialogInserisciVolo.add(textDataArrivo);
+
                 dialogInserisciVolo.add(buttonAnnulla);
                 dialogInserisciVolo.add(buttonConferma);
 
-                // Azione pulsante Conferma
                 buttonConferma.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -146,12 +149,10 @@ public class PaginaAmministratore extends JFrame {
                         }
                     }
                 });
-
                 buttonAnnulla.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        dialogInserisciVolo.dispose();
-                    }
+                        dialogInserisciVolo.dispose();}
                 });
                 dialogInserisciVolo.setVisible(true);
             }

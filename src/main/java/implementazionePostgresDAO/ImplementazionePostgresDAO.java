@@ -108,7 +108,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     public List<Volo> getElencoVoli() {
         List<Volo> elencoVoli = new ArrayList<>();
         String query = "SELECT v.codicevolo, v.idutenteinsert, v.compaerea, v.appart, v.apdest," +
-                "v.dataorapart, v.dataoraarrivo, v.ritardo, v.statovolo"
+                "v.dataorapart, v.dataoraarrivo, v.gateassegnato, v.ritardo, v.statovolo"
                 + " FROM Volo v order by dataorapart DESC";
 
         try (Connection conn = ConnessioneDatabase.getInstance().connection;
@@ -122,13 +122,23 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                 String aeroportoDestinazione = rs.getString("apdest");
                 LocalDateTime dataOraPartenza = rs.getTimestamp("dataorapart").toLocalDateTime();
                 LocalDateTime dataOraArrivo = rs.getTimestamp("dataoraarrivo").toLocalDateTime();
+                int gateAssegnato = rs.getInt("gateassegnato");
                 int ritardo = rs.getInt("ritardo");
-                StatoVolo statoVolo = StatoVolo.valueOf(rs.getString("statovolo"));
+                String statoString = rs.getString("statovolo");
+                StatoVolo statoVolo = StatoVolo.valueOf(statoString.toLowerCase());
+                Volo volo;
 
-                Volo volo = new Volo(codiceVolo, idUtenteInsert, compagniaAerea,
-                        aeroportoOrigine, aeroportoDestinazione, dataOraPartenza,
-                        dataOraArrivo, statoVolo, ritardo);
-                elencoVoli.add(volo);
+                if ("Napoli".equalsIgnoreCase(aeroportoOrigine)) {
+                    volo = new VoloPartenza(codiceVolo, idUtenteInsert, compagniaAerea,
+                            aeroportoOrigine, aeroportoDestinazione, dataOraPartenza,
+                            dataOraArrivo, statoVolo, ritardo, gateAssegnato);
+                } else {
+
+                    volo = new Volo(codiceVolo, idUtenteInsert, compagniaAerea,
+                            aeroportoOrigine, aeroportoDestinazione, dataOraPartenza,
+                            dataOraArrivo, statoVolo, ritardo);
+                }
+            elencoVoli.add(volo);
             }
         } catch (SQLException e) {
             System.err.println("Errore durante il recupero dell'elenco dei voli: " + e.getMessage());
@@ -188,9 +198,9 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      * @return true se il volo è stato aggiornato correttamente, false altrimenti.
      */
     @Override
-    public boolean updateVolo(Volo volo){
+    public boolean modificaDettagliVolo(Volo volo){
         String query = "UPDATE volo SET compaerea = ?, appart = ?, apdest = ?, " +
-                "dataorapart = ?, dataoraarrivo = ?, gateassegnato = ?, ritardo= ?," +
+                "dataorapart = ?, dataoraarrivo = ?, ritardo= ?," +
                 "statovolo = ? WHERE codicevolo = ?";
     try (Connection conn = ConnessioneDatabase.getInstance().connection;
          PreparedStatement stmt = conn.prepareStatement(query)){
@@ -199,10 +209,9 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
              stmt.setString(3, volo.getAeroportoDestinazione());
              stmt.setTimestamp(4, Timestamp.valueOf(volo.getOraDataPartenza()));
              stmt.setTimestamp(5, Timestamp.valueOf(volo.getOraDataArrivo()));
-             stmt.setInt(6,0);
-             stmt.setInt(7, volo.getRitardo());
-             stmt.setString(8, volo.getStatoVolo().toString());
-             stmt.setInt(9, volo.getCodiceVolo());
+             stmt.setInt(6, volo.getRitardo());
+             stmt.setString(7, volo.getStatoVolo().toString());
+             stmt.setInt(8, volo.getCodiceVolo());
              return stmt.executeUpdate() > 0;
     }
     catch(SQLException e){
@@ -220,7 +229,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      */
     @Override
     public boolean modificaGate(int nuovogate, int codicevolo){
-        String query = "UPDATE volo SET gateassegnato = ? WHERE codicevolo = ? AND aeroporto_partenza = 'Napoli'";
+        String query = "UPDATE volo SET gateassegnato = ? WHERE codicevolo = ? AND appart = 'Napoli'";
 
         try(Connection conn = ConnessioneDatabase.getInstance().connection;
             PreparedStatement stmt = conn.prepareStatement(query)){
@@ -242,10 +251,10 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      * @return true se la prenotazione è stata creata con successo, altrimenti false.
      */
     @Override
-    public boolean prenotaVolo(int codiceVolo, String nomePasseggero, int postoScelto){
-        String query = "INSERT INTO PRENOTAZIONE (idVolo, NomePasseggero, NumeroBiglietto," +
+    public boolean prenotaVolo(int codiceVolo, int idUtente, String nomePasseggero, int postoScelto){
+        String query = "INSERT INTO PRENOTAZIONE (idVolo, idUtente, NomePasseggero, NumeroBiglietto," +
                 "PostoAssegnato, StatoPren)" +
-                "VALUES (?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
     try(Connection conn = ConnessioneDatabase.getInstance().connection;
         PreparedStatement stmt = conn.prepareStatement(query)){
@@ -255,10 +264,11 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
         String numBiglietto = "BGL" + numeroBiglietto;
 
         stmt.setInt(1, codiceVolo);
-        stmt.setString(2, nomePasseggero);
-        stmt.setString(3, numBiglietto);
-        stmt.setInt(4, postoScelto);
-        stmt.setString(5, "IN_ATTESA");
+        stmt.setInt(2, idUtente);
+        stmt.setString(3, nomePasseggero);
+        stmt.setString(4, numBiglietto);
+        stmt.setInt(5, postoScelto);
+        stmt.setString(6, "IN_ATTESA".toLowerCase());
 
         int righeInserite = stmt.executeUpdate();
 
@@ -303,7 +313,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                 Passeggero passeggero = creaPasseggeroDaNomeCompleto(nomeCompleto);
                 //
 
-                int numeroBiglietto = rs.getInt("NumeroBiglietto");
+                String numeroBiglietto = rs.getString("NumeroBiglietto");
                 int postoAssegnato = rs.getInt("PostoAssegnato");
                 String statoString = rs.getString("StatoPren");
                 StatoPrenotazione statoPren = StatoPrenotazione.valueOf(statoString);
@@ -358,9 +368,9 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     public List<Prenotazione> getPrenotazioniByIdVolo(int codiceVolo, int idUtente){
         List<Prenotazione> elencoPrenotazioniTemp = new ArrayList<>();
 
-        String query = "SELECT p.idPrenotazione, p.idVolo, p.idUtente, p.nomepasseggero," +
+        String query = "SELECT p.idPrenotazione, p.idvolo, p.idUtente, p.nomepasseggero," +
                 "p.numerobiglietto, p.postoassegnato, p.statopren FROM PRENOTAZIONE p " +
-                "WHERE p.codicevolo = ? AND p.idutente = ?";
+                "WHERE p.idvolo = ? AND p.idutente = ?";
 
             try(Connection conn = ConnessioneDatabase.getInstance().connection;
                 PreparedStatement stmt = conn.prepareStatement(query)){
@@ -377,7 +387,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                     String nomeCompleto = rs.getString("NomePasseggero");
                     Passeggero passeggero = creaPasseggeroDaNomeCompleto(nomeCompleto);
 
-                    int numeroBiglietto = rs.getInt("NumeroBiglietto");
+                    String numeroBiglietto = rs.getString("NumeroBiglietto");
                     int postoAssegnato = rs.getInt("PostoAssegnato");
                     String statoString = rs.getString("StatoPren");
                     StatoPrenotazione statoPren = StatoPrenotazione.valueOf(statoString);
@@ -404,13 +414,15 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
 
         String query = "SELECT p.idPrenotazione, p.idVolo, p.idUtente, p.nomePasseggero," +
                 "p.numeroBiglietto, p.postoAssegnato, p.statopren FROM PRENOTAZIONE p " +
-                "WHERE LOWER(p.nomePasseggero) = LOWER(?) AND p.idUtente = ?";
+                "WHERE (LOWER(p.nomePasseggero) LIKE LOWER(?) OR LOWER(p.nomePasseggero) LIKE LOWER(?)) " +
+                "AND p.idutente = ?";
 
             try(Connection conn = ConnessioneDatabase.getInstance().connection;
                 PreparedStatement stmt = conn.prepareStatement(query)){
 
-                stmt.setString(1, nomePasseggero);
-                stmt.setInt(2, idUtente);
+                stmt.setString(1, "%" + nomePasseggero + "%");
+                stmt.setString(2, "%" + nomePasseggero + "%");
+                stmt.setInt(3, idUtente);
 
                 ResultSet rs = stmt.executeQuery();
 
@@ -421,7 +433,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                     String nomeCompleto = rs.getString("NomePasseggero");
                     Passeggero passeggero = creaPasseggeroDaNomeCompleto(nomeCompleto);
 
-                    int numeroBiglietto = rs.getInt("NumeroBiglietto");
+                    String numeroBiglietto = rs.getString("NumeroBiglietto");
                     int postoAssegnato = rs.getInt("PostoAssegnato");
                     String statoString = rs.getString("StatoPren");
                     StatoPrenotazione statoPren = StatoPrenotazione.valueOf(statoString);
@@ -437,6 +449,20 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     return elencoPrenotazioniTemp;
     }
 
+    public int getIdUtenteByUsername(String username) {
+        String query = "SELECT idutente FROM superutente WHERE nomeutente = ?";
+        try (Connection conn = ConnessioneDatabase.getInstance().connection;
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("idutente");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
     /**
      * Metodo Utility che permette di trasformare una stringa contenente nome e cognome estratta dal database, in un oggetto

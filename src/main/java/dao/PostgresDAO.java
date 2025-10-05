@@ -43,7 +43,7 @@ public interface PostgresDAO {
      * Interfaccia che permette di aggiornare le informazioni di un volo.
      * @return true se la modifica è avvenuta con successo, false altrimenti.
      */
-    boolean updateVolo(Volo volo);
+    boolean modificaDettagliVolo(Volo volo);
 
     /**
      * Interfaccia che permette di assegnare un nuovo gate, solo per i voli in partenza
@@ -61,7 +61,7 @@ public interface PostgresDAO {
      * @param postoScelto il posto scelto sull'aereo
      * @return true se l'operazione è andata a buon fine, false altrimenti
      */
-    boolean prenotaVolo(int CodiceVolo, String nomePasseggero, int postoScelto);
+    boolean prenotaVolo(int CodiceVolo, int idUtente, String nomePasseggero, int postoScelto);
 
     /**
      * Interfaccia che permette di recuperare tutte le prenotazioni associate a un utente.
@@ -91,4 +91,6 @@ public interface PostgresDAO {
      */
     List<Prenotazione> getPrenotazioniByPasseggero(String nomePasseggero, int idUtente);
 
+    int getIdUtenteByUsername(String username);
 }
+

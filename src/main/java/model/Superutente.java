@@ -9,7 +9,6 @@ package model;
 public abstract class Superutente {
     // ATTRIBUTI
 
-    protected int idUtente;
     /**
      * L'username per accedere al sistema.
      */
@@ -32,13 +31,6 @@ public abstract class Superutente {
 
     // GETTERS AND SETTERS
 
-    /**
-     * Metodo Getter per recuperare l'id dell'utente.
-     * @return l'id dell'utente.
-     */
-    public int getIdUtente() {
-        return idUtente;
-    }
 
     /**
      * Metodo setter per impostare il proprio username.

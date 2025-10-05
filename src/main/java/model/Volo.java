@@ -77,8 +77,8 @@ public class Volo {
         this.aeroportoDestinazione = aeroportoDestinazione;
         this.oraDataPartenza = oraDataPartenza;
         this.oraDataArrivo = oraDataArrivo;
-        this.statoVolo = StatoVolo.PROGRAMMATO;
-        this.ritardo = 0;
+        this.statoVolo = statoVolo;
+        this.ritardo = ritardo;
     }
 
     // GETTERS AND SETTERS

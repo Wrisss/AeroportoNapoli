@@ -4,7 +4,6 @@ import dao.PostgresDAO;
 import implementazionePostgresDAO.ImplementazionePostgresDAO;
 import model.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -76,7 +75,7 @@ public class Controller {
                 aeroportoDestinazione,
                 dataOraPartenza,
                 dataOraArrivo,
-                StatoVolo.PROGRAMMATO,
+                StatoVolo.programmato,
                 0
         );
         return dao.insertVolo(nuovoVolo);
@@ -86,10 +85,10 @@ public class Controller {
      * Metodo che permette di modificare un volo già presente nel database.
      * @param volo il volo che si intende modificare
      * @return true se la modifica è andata a buon fine, false altrimenti.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#updateVolo(Volo)}
+     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#modificaDettagliVolo(Volo)}
      */
     public boolean modificaVolo(Volo volo){
-        return dao.updateVolo(volo);
+        return dao.modificaDettagliVolo(volo);
     }
 
     /**
@@ -121,20 +120,20 @@ public class Controller {
      * @param nomePasseggero nome e cognome del passeggero associati alla prenotazione
      * @param postoAssegnato il posto che si intende occupare sull'aereo
      * @return true se il volo è stato prenotato con successo, false altrimenti.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#prenotaVolo(int, String, int)}
+     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#(int, String, int)}
      */
-    public boolean prenotaVoloController(int codiceVolo, String nomePasseggero, int postoAssegnato){
-        return dao.prenotaVolo(codiceVolo, nomePasseggero, postoAssegnato);
+    public boolean prenotaVoloController(int codiceVolo, int idUtente, String nomePasseggero, int postoAssegnato){
+        return dao.prenotaVolo(codiceVolo, idUtente, nomePasseggero, postoAssegnato);
     }
 
     /**
      * Metodo che permette di recuperare le prenotazioni associati a un utente registrato nel sistema.
-     * @param utenteGenerico l'oggetto utente generico di cui si voglioni recuperare le informazioni
+     * @param utenteCorrente l'oggetto utente generico di cui si voglioni recuperare le informazioni
      * @return la lista di tutte le prenotazioni collegate all'utente passato come argomento.
      * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#getPrenotazioniByUtente(UtenteGenerico)} 
      */
-    public List<Prenotazione> getTuttePrenotazioni(UtenteGenerico utenteGenerico){
-        return dao.getPrenotazioniByUtente(utenteGenerico);
+    public List<Prenotazione> getTuttePrenotazioni(UtenteGenerico utenteCorrente){
+        return dao.getPrenotazioniByUtente(utenteCorrente);
 
     }
     /**
@@ -169,5 +168,8 @@ public class Controller {
     public List<Prenotazione> getTuttePrenotazioniByPasseggero(String nomeCognPasseggero, int idUtente){
         return dao.getPrenotazioniByPasseggero(nomeCognPasseggero, idUtente);
     }
+
+    public int getIdUtenteDaUsername(String username){
+        return dao.getIdUtenteByUsername(username);}
 
 }
