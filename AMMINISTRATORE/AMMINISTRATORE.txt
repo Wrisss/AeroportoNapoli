@@ -1,0 +1,21 @@
+È possibile accedere come amministratore solamente conoscendo le credenziali o recuperandole dal database.
+
+Per accedere come Amministratore (ID Utente 1)
+username: Admin1
+password: forzanapoli
+
+Per accedere come Amministratore (ID Utente 2)
+username: Admin2
+password: FORZANAPOLI
+
+Per accedere come Amministratore (ID Utente 3)
+username: Admin3
+password: MCFRATM
+
+Per accedere come Amministratore (ID Utente 4)
+username: Admin4
+password: pizzaemandolino
+
+Per accedere come Amministratore (ID Utente 5)
+username: Admin5
+password: ovesuvio
