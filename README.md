@@ -1,4 +1,4 @@
-# ✈️ Aeroporto di Napoli - Sistema di Gestione
+# ✈️ Aeroporto di Napoli
 
 ![Java](https://img.shields.io/badge/Java-17%252B-orange)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%252B-blue)
