@@ -27,7 +27,7 @@ Il sistema integra:
 - **Login** con credenziali e gestione ruoli
 - **Due livelli di accesso:**
   - Utente Generico
-  - Amministratore
+  - Amministratore (per accedere come Amministratore consulta il file 'AMMINISTRATORE.txt' nella cartella 'AMMINISTRATORE') 
 
 ### 👤 Funzionalità Utente Generico
 - Prenotazione voli in tempo reale
@@ -60,7 +60,7 @@ cd Applicativo_AeroportoNapoli
 ### 2️⃣ Configurare il Database PostgreSQL
 
 1. Apri **pgAdmin 4**
-2. Crea un nuovo database chiamato `aeroporto_na`
+2. Crea un nuovo database chiamato `aeroportonapoli` o `aeroporto-na`
 3. Esegui lo script di backup presente nella cartella `backup database`
 
 ### 3️⃣ Configurare la Connessione al Database
