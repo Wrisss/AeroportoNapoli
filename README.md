@@ -1,9 +1,9 @@
-https://img.shields.io/badge/Java-17%252B-orange
-https://img.shields.io/badge/PostgreSQL-14%252B-blue
-https://img.shields.io/badge/GUI-Swing-lightgrey
-https://img.shields.io/badge/Maven-3.6%252B-blue
-
 # ✈️ Aeroporto di Napoli - Sistema di Gestione
+
+![Java](https://img.shields.io/badge/Java-17%252B-orange)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%252B-blue)
+![GUI](https://img.shields.io/badge/GUI-Swing-lightgrey)
+![Maven](https://img.shields.io/badge/Maven-3.6%252B-blue)
 
 **Progetto di Programmazione Orientata agli Oggetti**  
 Università degli Studi di Napoli Federico II - A.A. 2024/2025  
@@ -151,4 +151,3 @@ Per domande o chiarimenti sul progetto:
 ## 📝 Licenza
 
 Progetto sviluppato per scopi didattici nell'ambito del corso di Programmazione Orientata agli Oggetti presso l'Università Federico II di Napoli.
-
