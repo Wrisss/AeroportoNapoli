@@ -20,7 +20,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     //COSTRUTTORE
 
     /**
-     * Costruttore della classe Implementazione PostegresDAO.
+     * Costruttore della classe Implementazione PostegresDAO. Nessun parametro richiesto.
      */
     public ImplementazionePostgresDAO(){}
 
@@ -28,11 +28,10 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
      * Metodo che permette di recuperare dal database l'utente richiesto tramite username e password.
      * Questo metodo è concettualmente composto da tre parti:
      * 1. la preparazione della query da inviare al database.
-     * 2. la query che viene "inviata" tramite l'oggetto connessione al database.
+     * 2. la query che viene "inviata" tramite l'oggetto connessione al database{@link ConnessioneDatabase}.
      * 3. La processazione dei risultati restituiti dal database.
-     * L'intero metodo viene racchiuso in un "try-catch" poiché se la connessione al database dovesse fallire
-     * a tempo di esecuzione il programma non andrebbe in crash
-     *
+     * L'intero metodo viene racchiuso in un "try-catch" poiché, se la connessione al database dovesse fallire
+     * a tempo di esecuzione il programma, non andrebbe in crash
      * @param username l'username utilizzato per accedere
      * @param password la password utilizzata per accedere
      * @return l'utente richiesto.
@@ -51,7 +50,6 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
             // Invio della query al database
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    int idUtenteDb = rs.getInt("idutente");
                     String usernameDb = rs.getString("nomeutente");
                     String passwordDb = rs.getString("password");
                     String ruoloDatabase = rs.getString("ruolo");
@@ -76,10 +74,9 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     /**
      * Metodo che permette la registrazione e quindi l'inserimento di un nuovo utente nel database
      * è possibile registrarsi solo come utenti generici e non come amministratori. Questa logica viene gestita
-     * attraverso la "forzatura" del valore del ruolo che non può essere diverso da 'utente'
-     *
+     * attraverso la "forzatura" del valore del ruolo che non può essere diverso da 'utente'.
      * @param utenteGenerico l'utente che si vuole registrare nel database
-     * @return true se l'operazione è andata a buon fine, altrimenti false
+     * @return true se l'operazione è andata a buon fine, altrimenti false.
      */
     @Override
     public boolean insertUtenteGenerico(UtenteGenerico utenteGenerico) {
@@ -101,7 +98,8 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
 
     /**
      * Metodo che interroga il database per restituire l'intero elenco dei voli.
-     *
+     * Il metodo effettua anche una conversione sui dati per quanti riguarda la data e l'ora di partenza che
+     * non combaciano tra database e implementazione JAVA{@link Timestamp#toLocalDateTime()}
      * @return l'elenco dei voli presenti attualmente nel database.
      */
     @Override
@@ -204,6 +202,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
                 "statovolo = ? WHERE codicevolo = ?";
     try (Connection conn = ConnessioneDatabase.getInstance().connection;
          PreparedStatement stmt = conn.prepareStatement(query)){
+
              stmt.setString(1, volo.getCompagniaAerea());
              stmt.setString(2, volo.getAeroportoOrigine());
              stmt.setString(3, volo.getAeroportoDestinazione());
@@ -212,6 +211,7 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
              stmt.setInt(6, volo.getRitardo());
              stmt.setString(7, volo.getStatoVolo().toString());
              stmt.setInt(8, volo.getCodiceVolo());
+
              return stmt.executeUpdate() > 0;
     }
     catch(SQLException e){
@@ -449,11 +449,17 @@ public class ImplementazionePostgresDAO implements PostgresDAO {
     return elencoPrenotazioniTemp;
     }
 
+    /**
+     * Metodo Utility che permette di recuperare l'ID di un utente conoscendone l'username. L'implementazione di questo metodo
+     * si è resa necessaria dopo aver riscontrato innumerevoli problemi durante l'accesso al database.
+     * @param username l'username utilizzato per la ricerca
+     * @return l'ID dell'utente ricercato.
+     */
     public int getIdUtenteByUsername(String username) {
         String query = "SELECT idutente FROM superutente WHERE nomeutente = ?";
         try (Connection conn = ConnessioneDatabase.getInstance().connection;
                 PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, username);
+            stmt.setString(1, username.trim());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt("idutente");

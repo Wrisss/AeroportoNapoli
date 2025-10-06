@@ -87,21 +87,26 @@ public class Prenotazione {
         return idUtente;
     }
 
+    /**
+     * Metodo Setter per assegnare un oggetto passeggero a una prenotazione specifica.
+     * @param passeggero il riferimento all'oggetto passeggero
+     */
     public void setPasseggero(Passeggero passeggero) {
         this.passeggero = passeggero;
     }
 
+    /**
+     * Metodo Getter che permette di recuperare il riferimento di un oggetto passeggero assegnato alla prenotazione
+     * @return il riferimento all'oggetto passeggero
+     */
     public Passeggero getPasseggero() {
         return passeggero;
     }
 
     /**
-     * Metodo Setter che permette il codice della prenotazione al biglietto.
+     * Metodo Setter che permette di impostare il codice della prenotazione al biglietto.
      * @param numeroBiglietto il codice numerico del biglietto.
      */
-
-
-
     public void setNumeroBiglietto(String numeroBiglietto) {
         this.numeroBiglietto = numeroBiglietto;
     }

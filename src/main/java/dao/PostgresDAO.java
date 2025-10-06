@@ -91,6 +91,11 @@ public interface PostgresDAO {
      */
     List<Prenotazione> getPrenotazioniByPasseggero(String nomePasseggero, int idUtente);
 
+    /**
+     * Interfaccia che permette di recuperare l'ID di un utente dal database conoscendone l'username.
+     * @param username l'username utilizzato per la ricerca
+     * @return il codice dell'utente.
+     */
     int getIdUtenteByUsername(String username);
 }
 

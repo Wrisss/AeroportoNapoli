@@ -9,23 +9,64 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Classe GUI che inizializza una finestra 'Pagina Amministratore'.
+ * Questa pagina si apre solo se a effettuare l'accesso è un amministratore (consultare il manuale).
+ */
 public class PaginaAmministratore extends JFrame {
 
+    /**
+     * Riferimento al controller che gestisce la logica il passaggio di dati tra GUI e database.
+     */
     private Controller controller;
-    private PaginaLogin paginaLogin;
+
+    /**
+     * L'username dell'amministratore che effettua il login
+     */
     private String username;
-    private ElencoVoliAmm elencoVoli;
 
-
+    /**
+     * Pannello principale.
+     */
     private JPanel AmministratorePanel;
+
+    /**
+     * Pannello di benvenuto.
+     */
     private JPanel panelMessaggio;
+    /**
+     * Label per inserire il messaggio di benvenuto.
+     */
     private JLabel labelBenvenuto;
+
+    /**
+     * Pulsante per recuperare l'elenco dei voli.
+     */
     private JButton ELENCOVOLIButton;
+
+    /**
+     * Pulsante che permette l'inserimento di un nuovo volo nel database.
+     */
     private JButton INSERISCIVOLOButton;
+
+    /**
+     * Label collegata al pulsante 'INSERISCI VOLO'.
+     */
     private JLabel inserisciVoloLabel;
+
+    /**
+     * Label collegata al pulsante 'ELENCO VOLI'.
+     */
     private JLabel elencoVoliLabel;
 
-    public PaginaAmministratore(Controller controller, PaginaLogin paginaLogin,
+    /**
+     * Costruttore della classe GUI 'Pagina Amministratore'. Inizializza la creazione della finestra impostando
+     * una grafica con valori predefiniti.
+     * Il costruttore inizializza anchei pulsanti 'ELENCO VOLI' e 'INSERISCI VOLO'.
+     * @param controller il controller per gestire la logica di controllo dell'esecuzione
+     * @param username l'username dell'Amministratore che ha effettua il login.
+     */
+    public PaginaAmministratore(Controller controller,
                                 String username) {
         this.controller = controller;
         this.username = username;
@@ -35,6 +76,7 @@ public class PaginaAmministratore extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(AmministratorePanel);
+
 
         labelBenvenuto.setText("Benvenuto, " + username + "!");
         labelBenvenuto.setFont(new Font("Arial", Font.BOLD, 22));
@@ -48,7 +90,6 @@ public class PaginaAmministratore extends JFrame {
             }
         });
 
-
         INSERISCIVOLOButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,7 +100,6 @@ public class PaginaAmministratore extends JFrame {
                 dialogInserisciVolo.setLocationRelativeTo(PaginaAmministratore.this);
                 dialogInserisciVolo.setLayout(new GridLayout(10, 2, 10, 10));
 
-
                 JLabel labelCodice = new JLabel("Codice Volo:");
                 JTextField textCodiceVolo = new JTextField();
 
@@ -68,7 +108,6 @@ public class PaginaAmministratore extends JFrame {
 
                 JLabel labelCompagnia = new JLabel("Compagnia Aerea:");
                 JTextField textCompagniaAerea = new JTextField();
-
 
                 JLabel labelOrigine = new JLabel("Aeroporto Origine:");
                 JTextField textAeroportoOrigine = new JTextField();
@@ -82,11 +121,10 @@ public class PaginaAmministratore extends JFrame {
                 JLabel labelDataArrivo = new JLabel("Data e ora Arrivo (GG-MM-AAAA HH:MM):");
                 JTextField textDataArrivo = new JTextField();
 
-                // Pulsanti
+
                 JButton buttonConferma = new JButton("Conferma");
                 JButton buttonAnnulla = new JButton("Annulla");
 
-                // Aggiungo tutti i componenti alla finestra
                 dialogInserisciVolo.add(labelCodice);
                 dialogInserisciVolo.add(textCodiceVolo);
 
@@ -149,6 +187,7 @@ public class PaginaAmministratore extends JFrame {
                         }
                     }
                 });
+
                 buttonAnnulla.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

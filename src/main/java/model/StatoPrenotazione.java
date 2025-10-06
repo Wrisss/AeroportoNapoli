@@ -1,7 +1,8 @@
 package model;
 
 /**
- * Lo stato della prenotazione visibile nell'area riservata di ogni utente generico.
+ * Stato Prenotazione è una classe ENUM per esprimere valori costanti. I valori degli attributi della classe vengono qui
+ * esplicitamente inizializzati con lettere minuscole per evitare conflitti con il database PostegreSQL che è case-sensitive.
  */
 public enum StatoPrenotazione {
     /**

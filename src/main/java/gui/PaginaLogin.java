@@ -21,25 +21,66 @@ public class PaginaLogin extends JFrame {
      * Riferimento alla Homepage per ritornare alla scherma di accesso.
      */
     private Homepage homepage;
-    private UtenteGenerico utenteGenerico;
 
+    /**
+     * Pannello principale.
+     */
     private JPanel LoginPanel;
+
+    /**
+     * Pannello Top.
+     */
     private JPanel panelTop;
+
+    /**
+     * Pannello Bottom.
+     */
     private JPanel panelBottom;
 
+    /**
+     * Label Username.
+     */
     private JLabel usernameLabel;
+
+    /**
+     * Label Password.
+     */
     private JLabel passwordLabel;
+
+    /**
+     * Campo dove inserire l'username.
+     */
     private JTextField usernameTextField;
+
+    /**
+     * Campo dove inserire la password.
+     */
     private JPasswordField passwordField1;
+
+    /**
+     * OptionPane per avvisare l'utente in caso di riuscita o errore nel login.
+     */
     private JOptionPane jOptionPane;
 
+    /**
+     *
+     */
     private JTextArea LoginMsg;
+
+    /**
+     * Pulsante 'TORNA INDIETRO'. Ritorna alla schermata precedente.
+     */
     private JButton TORNAINDIETROButton;
+
+    /**
+     * Pulsante 'LOGIN'. Permette l'accesso alla propria area riservata.
+     */
     private JButton LOGINButton;
 
     /**
      * Costruttore della classe PaginaLogin che istanzia la finestra di Login.
      * La pagina di Login viene creata con una serie di valori predefiniti che ne specificano la grafica.
+     * Vengono inoltre inizializzati i pulsanti 'LOGIN' e 'TORNA INDIETRO'.
      * @param controller riferimento al controller
      * @param homepage riferimento alla homepage
      */
@@ -53,9 +94,7 @@ public class PaginaLogin extends JFrame {
         setLocationRelativeTo(null);
         add(LoginPanel);
 
-        /**
-         * Pulsante che permette all'utente di ritornare alla schermata precedente.
-         */
+
         TORNAINDIETROButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,20 +103,14 @@ public class PaginaLogin extends JFrame {
             }
         });
 
-        /**
-         * Pulsante che permette all'utente di effettuare il Login.
-         * È presente qui solo la logica di correttezza di immissione (l'utente non può inserire campi vuoi).
-         * A seconda delle credenziali inserite dall'utente esso verrà reindirizzato nella finestra corretta.
-         * Se l'utente non è presente nel database viene mostrata una finestra di dialogo di errore.
-         */
+
         LOGINButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // input dall'utente
+
                 String username = usernameTextField.getText().trim();
                 String password = new String(passwordField1.getPassword()).trim();
 
-                // verifica dell'input
                 if (username.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(null,
                             "Inserisci username e password",
@@ -86,27 +119,23 @@ public class PaginaLogin extends JFrame {
                     return;
                 }
 
-                // variabile per verificare se l'utente è inserito nel database.
                 Superutente utenteLoggato = controller.login(username, password);
 
-                // verifica fallita
                 if (utenteLoggato == null) {
                     JOptionPane.showMessageDialog(null,
                             "Errore di autenticazione: Username o password errati",
                             "Errore",
                             JOptionPane.ERROR_MESSAGE);
                 }
-                // verifica riuscita
+
                 else {
                     if (utenteLoggato instanceof Amministratore) {
-                        PaginaAmministratore paginaAmministratore = new PaginaAmministratore(controller,
-                                PaginaLogin.this, username);
+                        PaginaAmministratore paginaAmministratore = new PaginaAmministratore(controller, username);
                         paginaAmministratore.setVisible(true);
-
-
-                    } else if (utenteLoggato instanceof UtenteGenerico) {
+                    }
+                    else if (utenteLoggato instanceof UtenteGenerico) {
                         PaginaUtenteGenerico paginaUtenteGenerico = new PaginaUtenteGenerico(controller,
-                                PaginaLogin.this, (UtenteGenerico) utenteLoggato);
+                                (UtenteGenerico) utenteLoggato);
                         paginaUtenteGenerico.setVisible(true);
                         dispose();}
                 }

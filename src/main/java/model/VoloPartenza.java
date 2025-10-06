@@ -18,7 +18,7 @@ public class VoloPartenza extends Volo{
      * @param codiceVolo            il codice univoco del volo
      * @param idUtenteInsert        il codice dell'utente che inserito il volo
      * @param compagniaAerea        la compagnia che eroga il volo
-     * @param aeroportoOrigine      valore costante 'NAPOLI'
+     * @param aeroportoOrigine      valore costante 'Napoli'
      * @param aeroportoDestinazione l'aeroporto di atterraggio del volo
      * @param dataOraPartenza       data e ora di partenza del volo
      * @param dataOraArrivo         data e ora di arrivo del volo
@@ -30,15 +30,23 @@ public class VoloPartenza extends Volo{
                         String aeroportoOrigine, String aeroportoDestinazione,
                         LocalDateTime dataOraPartenza, LocalDateTime dataOraArrivo, StatoVolo statoVolo,
                         int ritardo, int gateAssegnato){
-        super(codiceVolo, idUtenteInsert, compagniaAerea, "NAPOLI", aeroportoDestinazione, dataOraPartenza, dataOraArrivo,
+        super(codiceVolo, idUtenteInsert, compagniaAerea, "Napoli", aeroportoDestinazione, dataOraPartenza, dataOraArrivo,
                 statoVolo, ritardo);
         this.gateAssegnato = gateAssegnato;
     }
 
+    /**
+     * Metodo per assegnare il gate a un volo. Disponibile solo per i voli che partono da Napoli.
+     * @param gateAssegnato il numero del gate da assegnare
+     */
     public void setGateAssegnato(int gateAssegnato) {
         this.gateAssegnato = gateAssegnato;
     }
 
+    /**
+     * Metodo che permette di recuperare il gate di un volo. Disponibile solo per i voli in partenza da Napoli
+     * @return il numero del gate assegnato.
+     */
     public int getGateAssegnato() {
         return gateAssegnato;
     }

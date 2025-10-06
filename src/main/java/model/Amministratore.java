@@ -21,7 +21,5 @@ public class Amministratore extends Superutente {
         super(username, password);
     }
 
-    public String getRuolo() {
-        return ruolo;
-    }
+
 }

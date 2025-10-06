@@ -41,7 +41,7 @@ public abstract class Superutente {
     }
 
     /**
-     * Metodo getter per ricevere il nome dell'utente.
+     * Metodo getter per ricevere l'username dell'utente.
      * @return l'username scelto dall'utente.
      */
     public String getUsername() {
@@ -64,11 +64,6 @@ public abstract class Superutente {
         return password;
     }
 
-    /**
-     * Interfaccia astratta che permette di recuperare il ruolo di utente navigando le sottoclassi specifiche di SUPERUTENTE.
-     * @return il ruolo dell'utente
-     */
-    public abstract String getRuolo();
 }
 
 

@@ -10,21 +10,49 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Classe GUI che imposta la finestra delle prenotazioni di un utente generico.
+ */
 public class PrenotazioniUG extends JFrame {
 
+    /**
+     * Riferimento al controller che gestisce la logica.
+     */
     private Controller controller;
+
+    /**
+     * Riferimento all'utente generico che ha effettuato il login.
+     */
     private UtenteGenerico utenteCorrente;
 
+    /**
+     * Pannello principale.
+     */
     private JPanel panelPrenotazioni;
-    private DefaultTableModel tableModel;
-    private JTable tabellaPrenotazioni;
-    private List<Prenotazione> elencoPrenotazioni;
 
-    public PrenotazioniUG(Controller controller, PaginaUtenteGenerico paginaUtenteGenerico, UtenteGenerico utente) {
+    /**
+     * Specifiche per il layout della tabella.
+     */
+    private DefaultTableModel tableModel;
+
+    /**
+     * Tabella per mostrare i dati recuperati dal database.
+     */
+    private JTable tabellaPrenotazioni;
+
+
+    /**
+     * Costruttore della classe PrenotazioniUG. Inizializza la finestra delle prenotazioni.
+     * Il costruttore utilizza una serie di valori preimpostati che ne specificano la grafica.
+     * Inizializza i componenti dell'interfaccia e carica le prenotazioni dell'utente che ha effettuato il login.
+     * @param controller il riferimento al controller che gestisce la logica
+     * @param utente l'utente che ha effettuato il login
+     */
+    public PrenotazioniUG(Controller controller, UtenteGenerico utente) {
         this.controller = controller;
         this.utenteCorrente = utente;
 
-        setTitle("Elenco Prenotazioni - PER PRENOTARE UN VOLO È NECESSARIO CONOSCERE IL PROPRIO ID");
+        setTitle("Elenco Prenotazioni");
         setSize(1200, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -37,7 +65,6 @@ public class PrenotazioniUG extends JFrame {
     private void inizializzaComponenti() {
         setLayout(new BorderLayout(10, 10));
 
-        // Definizione colonne tabella
         String[] colonne = {"ID Prenotazione", "ID Volo", "Passeggero",
                 "Numero Biglietto", "Posto", "Stato"};
         tableModel = new DefaultTableModel(colonne, 0) {
@@ -51,7 +78,6 @@ public class PrenotazioniUG extends JFrame {
         tabellaPrenotazioni.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabellaPrenotazioni.setRowHeight(25);
 
-        // Imposta larghezze colonne
         tabellaPrenotazioni.getColumnModel().getColumn(0).setPreferredWidth(80);
         tabellaPrenotazioni.getColumnModel().getColumn(1).setPreferredWidth(60);
         tabellaPrenotazioni.getColumnModel().getColumn(2).setPreferredWidth(150);
@@ -62,7 +88,6 @@ public class PrenotazioniUG extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tabellaPrenotazioni);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Pannello per i pulsanti di ricerca
         JPanel panelRicerca = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
         JTextField txtCercaVolo = new JTextField(10);
@@ -79,7 +104,6 @@ public class PrenotazioniUG extends JFrame {
         panelRicerca.add(btnCercaPasseggero);
         panelRicerca.add(btnReset);
 
-        // Pannello per i pulsanti operativi
         JPanel panelPulsanti = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton btnAggiornaStato = new JButton("Aggiorna Stato");
         JButton btnAggiorna = new JButton("Aggiorna Tabella");
@@ -89,7 +113,6 @@ public class PrenotazioniUG extends JFrame {
         panelPulsanti.add(btnAggiorna);
         panelPulsanti.add(btnAnnulla);
 
-        // Aggiungi action listeners
         btnCercaVolo.addActionListener(e -> {
             try {
                 int idVolo = Integer.parseInt(txtCercaVolo.getText().trim());
@@ -113,7 +136,6 @@ public class PrenotazioniUG extends JFrame {
         btnAggiornaStato.addActionListener(e -> aggiornaStatoPrenotazione());
         btnAnnulla.addActionListener(e -> dispose());
 
-        // Layout principale
         JPanel panelNord = new JPanel(new BorderLayout());
         panelNord.add(panelRicerca, BorderLayout.NORTH);
 
@@ -131,7 +153,6 @@ public class PrenotazioniUG extends JFrame {
     }
 
     private void cercaPerIdVolo(int idVolo) {
-        // Recupera l'ID utente dal database usando il metodo che hai implementato
         int idUtente = controller.getIdUtenteDaUsername(utenteCorrente.getUsername());
         if (idUtente != -1) {
             aggiornaTabella(controller.getTuttePrenotazioniByIdVolo(idVolo, idUtente));
@@ -141,7 +162,6 @@ public class PrenotazioniUG extends JFrame {
     }
 
     private void cercaPerPasseggero(String nomePasseggero) {
-        // Recupera l'ID utente dal database
         int idUtente = controller.getIdUtenteDaUsername(utenteCorrente.getUsername());
         if (idUtente != -1) {
             aggiornaTabella(controller.getTuttePrenotazioniByPasseggero(nomePasseggero, idUtente));
@@ -152,7 +172,7 @@ public class PrenotazioniUG extends JFrame {
 
     private void aggiornaTabella(List<Prenotazione> prenotazioni) {
         tableModel.setRowCount(0);
-        this.elencoPrenotazioni = prenotazioni;
+
 
         if (prenotazioni.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nessuna prenotazione trovata");
@@ -160,7 +180,6 @@ public class PrenotazioniUG extends JFrame {
         }
 
         for (Prenotazione prenotazione : prenotazioni) {
-            // Usa il metodo getNomeCompleto() che hai aggiunto a Passeggero
             String nomePasseggero = prenotazione.getPasseggero().getNomeCompletoPasseggero();
 
             Object[] riga = {
@@ -186,11 +205,10 @@ public class PrenotazioniUG extends JFrame {
         int idPrenotazione = (int) tableModel.getValueAt(rigaSelezionata, 0);
         String nomePasseggero = (String) tableModel.getValueAt(rigaSelezionata, 2);
 
-        // Crea stati in lowercase per il database
         StatoPrenotazione[] stati = StatoPrenotazione.values();
         String[] statiLowerCase = new String[stati.length];
         for (int i = 0; i < stati.length; i++) {
-            statiLowerCase[i] = stati[i].toString().toLowerCase();
+            statiLowerCase[i] = stati[i].name();
         }
 
         String nuovoStato = (String) JOptionPane.showInputDialog(
@@ -204,14 +222,13 @@ public class PrenotazioniUG extends JFrame {
         );
 
         if (nuovoStato != null) {
-            // Converti la stringa lowercase back a StatoPrenotazione
             try {
-                StatoPrenotazione statoEnum = StatoPrenotazione.valueOf(nuovoStato.toUpperCase());
+                StatoPrenotazione statoEnum = StatoPrenotazione.valueOf(nuovoStato);
                 boolean successo = controller.aggiornaPrenotazioneController(idPrenotazione, statoEnum);
 
                 if (successo) {
                     JOptionPane.showMessageDialog(this, "Stato aggiornato con successo!");
-                    caricaPrenotazioniUtente(); // Ricarica per vedere le modifiche
+                    caricaPrenotazioniUtente();
                 } else {
                     JOptionPane.showMessageDialog(this, "Errore durante l'aggiornamento");
                 }

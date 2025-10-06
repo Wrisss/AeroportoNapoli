@@ -25,8 +25,8 @@ public class VoloDestinazione extends Volo {
     public VoloDestinazione(int codiceVolo, int idUtenteInsert, String compagniaAerea,
                             String aeroportoOrigine, String aeroportoDestinazione,
                             LocalDateTime dataOraPartenza, LocalDateTime dataOraArrivo, StatoVolo statoVolo,
-                            int ritardo, int gateAssegnato) {
-        super(codiceVolo, idUtenteInsert, compagniaAerea, aeroportoOrigine, "NAPOLI", dataOraPartenza, dataOraArrivo,
+                            int ritardo) {
+        super(codiceVolo, idUtenteInsert, compagniaAerea, aeroportoOrigine, "Napoli", dataOraPartenza, dataOraArrivo,
                 statoVolo, ritardo);
     }
 }

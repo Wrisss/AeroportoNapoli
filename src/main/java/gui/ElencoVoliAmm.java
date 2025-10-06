@@ -11,17 +11,46 @@ import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * Classe GUI che implementa la finestra di gestione dei voli.
+ */
 public class ElencoVoliAmm extends JFrame {
 
+    /**
+     * Riferimento al controller che gestisce la logica.
+     */
     private Controller controller;
+
+    /**
+     * Riferimento alla pagina Amministratore per tornare alla schermata precedente.
+     */
     private PaginaAmministratore paginaAmministratore;
+
     private List<Volo> elencoVoli;
 
+    /**
+     * Pannello principale.
+     */
     private JPanel panelElencoVoli;
-    private JTable tabellaVoli;
-    private DefaultTableModel tableModel;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
+    /**
+     * Tabella che mostra i voli presenti nel sistema.
+     */
+    private JTable tabellaVoli;
+
+    /**
+     * Specifiche per modificare la tabella.
+     */
+    private DefaultTableModel tableModel;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+    /**
+     * Costruttore della classe ElencoVoliAmm. Inizilizza la finestra che mostra l'elenco dei voli solo per amministratori.
+     * Il costruttore utilizza una serie di valori predefiniti che ne specificano la grafica.
+     * Inizializza, inoltre, una serie di componenti per la gestione dei voli.
+     * @param controller il riferimento al controller che gestisce la logica.
+     * @param paginaAmministratore riferimento alla pagina amministratore per tornare alla schermata precedente.
+     */
     public ElencoVoliAmm(Controller controller,
                          PaginaAmministratore paginaAmministratore){
         this.controller = controller;
@@ -219,6 +248,12 @@ class DialogModificaVolo extends JDialog {
     private JTextField txtRitardo;
     private JComboBox<StatoVolo> comboStato;
 
+    /**
+     * Classe GUI inserita in ElencoVoliAmm. Gestisce la logica che permette all'amministratore di gestire i voli.
+     * @param parent la classe Amministratore in cui è implementata la classe.
+     * @param volo il volo che si intende aggiungere o modifcare.
+     * @param controller riferimento al controller che gestisce la logica.
+     */
     public DialogModificaVolo(JFrame parent, Volo volo, Controller controller) {
         super(parent, "Modifica Dettagli Volo", true);
         this.volo = volo;

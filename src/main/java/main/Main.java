@@ -17,7 +17,11 @@ public class  Main {
      */
     private Main(){}
 
-
+    /**
+     * Il punto di ingresso del programma. Inizializza solamente la homepage utilizzando una lambda function.
+     * Il controllo del programma viene poi gestito dall'utente che interagisce con la GUI.
+     * @param args
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
 

@@ -32,9 +32,16 @@ public class Passeggero {
         this.documentoIdentita = documentoIdentita;
     }
 
+    /**
+     * Metodo Getter di utility che permettere di concatenare nome e cognome di un passeggero. Questo metodo si rende
+     * necessario per interagire con il database di PostegreSQL in quanto i dati non combaciano all'implementazione orientata
+     * agli oggetti.
+     * @return
+     */
     public String getNomeCompletoPasseggero(){
         return this.nomePasseggero + " " + this.cognomePasseggero;
     }
+
     /**
      * Metodo Setter che permette di assegnare, alla prenotazione, il nome di un passeggero,
      * anche diverso da chi ha creato la prenotazione.

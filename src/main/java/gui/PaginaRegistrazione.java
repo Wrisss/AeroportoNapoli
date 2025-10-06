@@ -20,24 +20,60 @@ public class PaginaRegistrazione extends JFrame {
      */
     private Homepage homepage;
 
+    /**
+     * Pannello principale.
+     */
     private JPanel RegistrazionePanel;
 
+    /**
+     * Pannello di inserimenti.
+     */
+    private JPanel InserimentoField;
+
+    /**
+     * Campo per inserire l'username.
+     */
     private JTextField usernameTextField;
+
+    /**
+     * Campo per inserire la password.
+     */
     private JPasswordField passwordField1;
 
+    /**
+     * Label per indicare un errore di inserimento di un username.
+     */
     private JLabel erroreLabelUsername;
+
+    /**
+     * Label per indicare un errore di inserimento della password.
+     */
     private JLabel erroreLabelPassword;
+
+    /**
+     * Label di username.
+     */
     private JLabel usernameLabel;
 
-    private JPanel InserimentoField;
+    /**
+     * Label di password.
+     */
     private JLabel passwordLabel;
 
+    /**
+     * Pulsante ´TORNA INDIETRO´. Ritorna alla schermata precedente.
+     */
     private JButton TORNAINDIETROButton;
+
+    /**
+     * Pulsante 'REGISTRATI'. Permette all'utente di registrarsi.
+     */
     private JButton REGISTRATIButton;
 
     /**
      * Costruttore della classe PaginaRegistrazione. Permette la creazione della finestra di registrazione.
      * Il costruttore crea una finestra con una serie di valori predefiniti che ne specificano la grafica.
+     * Vengono inizializzati inoltre i pulsanti 'TORNAINDIETRO' e 'REGISTRATI'.
      * @param controller viene passato il riferimento a controller {@link Controller}
      * @param homepage viene passato il riferimento a homepage {@link Homepage}
      */
@@ -51,9 +87,7 @@ public class PaginaRegistrazione extends JFrame {
         setLocationRelativeTo(null);
         add(RegistrazionePanel);
 
-        /**
-         * Pulsante che permette all'utente di ritornare alla schermata della Homepage.
-         */
+
         TORNAINDIETROButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,39 +96,28 @@ public class PaginaRegistrazione extends JFrame {
             }
         });
 
-        /**
-         * Pulsante che permette all'utente registrare la propria utenza nel database.
-         * È presente un controllo in immissione sia per il campo password che per il campo username.
-         * In caso di errore di immissione da parte dell'utente viene mostrata una finestra di dialogo di errore.
-         * In caso di successo viene mostrata una finestra di dialogo di successo. Dopodiché l'utente viene riportato
-         * automaticamente alla Homepage.
-         */
         REGISTRATIButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = usernameTextField.getText().trim();
                 String password = new String(passwordField1.getPassword()).trim();
 
-                boolean isValid = true;
-
+                // Logica di controllo dell'input.
                 if (username.length() < 6) {
                     erroreLabelUsername.setText("Username deve contenere almeno 6 caratteri");
                     erroreLabelUsername.setForeground(Color.RED);
-                    isValid = false;
+                    return;
                 }
-
                 if (password.length() < 6) {
                     erroreLabelPassword.setText("Password deve contenere almeno 6 caratteri");
                     erroreLabelPassword.setForeground(Color.RED);
-                    isValid = false;
+                    return;
                 }
 
                 usernameTextField.setText("");
                 passwordField1.setText("");
 
-                if (isValid) {
-
-                    boolean success = controller.registraUtente(username, password);
+                boolean success = controller.registraUtente(username, password);
 
                     if (success) {
                         JOptionPane.showMessageDialog(
@@ -105,7 +128,6 @@ public class PaginaRegistrazione extends JFrame {
                         );
                         dispose();
                         homepage.setVisible(true);
-
                     } else {
                         JOptionPane.showMessageDialog(
                                 PaginaRegistrazione.this,
@@ -113,7 +135,6 @@ public class PaginaRegistrazione extends JFrame {
                                 "Errore",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-                }
             }
         });
     }

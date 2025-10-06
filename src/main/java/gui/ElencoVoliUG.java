@@ -17,7 +17,6 @@ public class ElencoVoliUG extends JFrame{
     private Controller controller;
     private List<Volo> elencoVoli;
     private PaginaUtenteGenerico paginaUtenteGenerico;
-    private String username;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     private JTable tabellaVoli;
@@ -144,7 +143,7 @@ public class ElencoVoliUG extends JFrame{
         private Controller controller;
         private int codiceVolo;
 
-        private JTextField txtIdUtente;
+        private JTextField txtUsername;
         private JTextField txtNomePasseggero;
         private JTextField txtCognomePasseggero;
         private JSpinner spinnerPosto;
@@ -165,9 +164,9 @@ public class ElencoVoliUG extends JFrame{
             JPanel panelCampi = new JPanel(new GridLayout(5, 2, 10, 10));
             panelCampi.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-            panelCampi.add(new JLabel("ID Utente:"));
-            txtIdUtente = new JTextField();
-            panelCampi.add(txtIdUtente);
+            panelCampi.add(new JLabel("Username:"));
+            txtUsername = new JTextField();
+            panelCampi.add(txtUsername);
 
             panelCampi.add(new JLabel("Nome Passeggero:"));
             txtNomePasseggero = new JTextField();
@@ -207,7 +206,7 @@ public class ElencoVoliUG extends JFrame{
         }
 
         private void confermaPrenotazione() {
-            String idUtenteTxt = txtIdUtente.getText().trim();
+            String usernameTxt = txtUsername.getText().trim();
             String nomePasseggero = txtNomePasseggero.getText().trim();
             String cognomePassegero = txtCognomePasseggero.getText().trim();
             int postoScelto = (Integer) spinnerPosto.getValue();
@@ -219,7 +218,16 @@ public class ElencoVoliUG extends JFrame{
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            int idUtente = Integer.parseInt(idUtenteTxt);
+            int idUtente = controller.getIdUtenteDaUsername(usernameTxt);
+
+            if (idUtente == -1) {
+                JOptionPane.showMessageDialog(this,
+                        "Username non trovato nel sistema.",
+                        "Errore",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             String nomeCompleto = nomePasseggero + " " + cognomePassegero;
 
             boolean successo = controller.prenotaVoloController(codiceVolo, idUtente, nomeCompleto, postoScelto);

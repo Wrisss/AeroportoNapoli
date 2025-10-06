@@ -33,7 +33,7 @@ public class Controller {
      * @param username l'username con il quale si è effettuata la registrazione
      * @param password la password associata all'username
      * @return il login dell'utente che può essere amministratore o utente generico.
-     * La logica che permette la distinzione dei ruoli è implementata nel metodo: {@link ImplementazionePostgresDAO#getUtenteByCredentials(String, String)}
+     * La logica che permette la distinzione dei ruoli è implementata nel metodo:{@link ImplementazionePostgresDAO#getUtenteByCredentials(String, String)}
      */
     public Superutente login(String username, String password){
         return dao.getUtenteByCredentials(username, password);
@@ -42,7 +42,7 @@ public class Controller {
     /**
      * Metodo che permette di recuperare tutti i voli presenti nel database.
      * @return la lista dei voli.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#getElencoVoli()}
+     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#getElencoVoli()}
      */
     public List<Volo> getTuttiVoli(){
         return dao.getElencoVoli();
@@ -51,15 +51,17 @@ public class Controller {
     // METODO DISPONIBILI SOLO AGLI AMMINISTRATORI
 
     /**
-     *
-     * @param codiceVolo
-     * @param idUtenteInsert
-     * @param compagniaAerea
-     * @param aeroportoOrigine
-     * @param aeroportoDestinazione
-     * @param dataOraPartenza
-     * @param dataOraArrivo
-     * @return
+     * Metodo che permette l'inserimento di un nuovo volo. L'utente interagisce con la GUI che passa il controllo dell'esecuzione
+     * al controller.
+     * @param codiceVolo il codice del volo
+     * @param idUtenteInsert l'id dell'utente che ha inserito il volo\
+     * @param compagniaAerea la compagnia aerea che eroga il servizio
+     * @param aeroportoOrigine l'aeroporto di decollo
+     * @param aeroportoDestinazione l'aeroporto di arrivo
+     * @param dataOraPartenza data e ora partenza
+     * @param dataOraArrivo data e ora di arrivo
+     * @return true se l'inserimento è andato a buon fine, false altrimenti.
+     * La logica viene gestita dal metodo:{@link ImplementazionePostgresDAO#insertVolo(Volo)}
      */
     public boolean inserisciNuovoVolo(int codiceVolo, int idUtenteInsert,
                                       String compagniaAerea, String aeroportoOrigine,
@@ -85,7 +87,7 @@ public class Controller {
      * Metodo che permette di modificare un volo già presente nel database.
      * @param volo il volo che si intende modificare
      * @return true se la modifica è andata a buon fine, false altrimenti.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#modificaDettagliVolo(Volo)}
+     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#modificaDettagliVolo(Volo)}
      */
     public boolean modificaVolo(Volo volo){
         return dao.modificaDettagliVolo(volo);
@@ -108,7 +110,7 @@ public class Controller {
      * @param username il nome scelto dall'utente
      * @param password la password scelta dall'utente
      * @return true se la registrazione è andata a buon fine, false altrimenti.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#insertUtenteGenerico(UtenteGenerico)}
+     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#insertUtenteGenerico(UtenteGenerico)}
      */
     public boolean registraUtente(String username, String password){
         UtenteGenerico utenteRegistrato = new UtenteGenerico(username, password);
@@ -120,7 +122,7 @@ public class Controller {
      * @param nomePasseggero nome e cognome del passeggero associati alla prenotazione
      * @param postoAssegnato il posto che si intende occupare sull'aereo
      * @return true se il volo è stato prenotato con successo, false altrimenti.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#(int, String, int)}
+     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#(int, String, int)}
      */
     public boolean prenotaVoloController(int codiceVolo, int idUtente, String nomePasseggero, int postoAssegnato){
         return dao.prenotaVolo(codiceVolo, idUtente, nomePasseggero, postoAssegnato);
@@ -130,7 +132,7 @@ public class Controller {
      * Metodo che permette di recuperare le prenotazioni associati a un utente registrato nel sistema.
      * @param utenteCorrente l'oggetto utente generico di cui si voglioni recuperare le informazioni
      * @return la lista di tutte le prenotazioni collegate all'utente passato come argomento.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#getPrenotazioniByUtente(UtenteGenerico)} 
+     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#getPrenotazioniByUtente(UtenteGenerico)}
      */
     public List<Prenotazione> getTuttePrenotazioni(UtenteGenerico utenteCorrente){
         return dao.getPrenotazioniByUtente(utenteCorrente);
@@ -141,7 +143,7 @@ public class Controller {
      * @param idPrenotazione l'id permette di recuperare la prenotazione che gli è associata
      * @param nuovostato confermare o cancellare una prenotazione.
      * @return true se l'aggiornamento è andato a buon fine, false altrimenti.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#aggiornaPrenotazione(int, StatoPrenotazione)} 
+     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#aggiornaPrenotazione(int, StatoPrenotazione)}
      */
     public boolean aggiornaPrenotazioneController(int idPrenotazione, StatoPrenotazione nuovostato){
         return dao.aggiornaPrenotazione(idPrenotazione, nuovostato);
@@ -152,7 +154,7 @@ public class Controller {
      * @param codicevolo il codice del volo per filtrare la ricerca
      * @param idUtente l'identificato dell'utente che ha effettua la prenotazione
      * @return la lista delle prenotazioni filtrate tramite il codice del volo passato come argomento.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#getPrenotazioniByIdVolo(int, int)} 
+     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#getPrenotazioniByIdVolo(int, int)}
      */
     public List<Prenotazione> getTuttePrenotazioniByIdVolo(int codicevolo, int idUtente){
         return dao.getPrenotazioniByIdVolo(codicevolo, idUtente);
@@ -163,12 +165,18 @@ public class Controller {
      * @param nomeCognPasseggero nome e cognome del passeggero per filtrare la ricerca
      * @param idUtente l'identificato dell'utente che ha effettuato la prenotazione
      * @return la liste delle prenotazioni filtrate tramite nome e cognome del passeggero.
-     * La logica viene gestita dal metodo: {@link implementazionePostgresDAO.ImplementazionePostgresDAO#getPrenotazioniByPasseggero(String, int)} 
+     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#getPrenotazioniByPasseggero(String, int)}
      */
     public List<Prenotazione> getTuttePrenotazioniByPasseggero(String nomeCognPasseggero, int idUtente){
         return dao.getPrenotazioniByPasseggero(nomeCognPasseggero, idUtente);
     }
 
+    /**
+     * Metodo che permette di recuperare l'id di un utente conoscendo l'username dal database.
+     * @param username l'username utilizzato per la ricerca
+     * @return l'id dell'utente associato a l'username ricercato.
+     * La logica di accesso al database viene gestita dal metodo:{@link ImplementazionePostgresDAO#getIdUtenteByUsername(String)}
+     */
     public int getIdUtenteDaUsername(String username){
         return dao.getIdUtenteByUsername(username);}
 
