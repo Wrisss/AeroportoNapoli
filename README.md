@@ -14,8 +14,8 @@ Università degli Studi di Napoli Federico II - A.A. 2024/2025
 
 Applicazione Java completa per la gestione dell'Aeroporto di Napoli, sviluppata con:
 - Architettura MVC (Model-View-Controller) 
-- linguaggio di programmazione a oggetti 
-- interfaccia grafica realizzata con Java Swing e GUI Designer di IntelliJ IDEA.
+- Linguaggio di programmazione a oggetti 
+- Interfaccia grafica realizzata con Java Swing e GUI Designer di IntelliJ IDEA.
 - DBMS PostegreSQL
 
 Il sistema integra:
