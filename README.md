@@ -1,9 +1,10 @@
 # ✈️ Aeroporto di Napoli
 
-![Java](https://img.shields.io/badge/Java-17%252B-orange)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%252B-blue)
+![Java](https://img.shields.io/badge/Java-23-orange)
+![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-9.0-blue)
 ![GUI](https://img.shields.io/badge/GUI-Swing-lightgrey)
-![Maven](https://img.shields.io/badge/Maven-3.6%252B-blue)
+![Maven](https://img.shields.io/badge/Maven-3.6-blue)
 
 **Progetto di Programmazione Orientata agli Oggetti**  
 Università degli Studi di Napoli Federico II - A.A. 2024/2025  
@@ -11,7 +12,11 @@ Università degli Studi di Napoli Federico II - A.A. 2024/2025
 
 ## 📋 Descrizione del Progetto
 
-Applicazione Java completa per la gestione dell'Aeroporto di Napoli, sviluppata con architettura a oggetti e interfaccia grafica realizzata con Java Swing e GUI Designer di IntelliJ IDEA.
+Applicazione Java completa per la gestione dell'Aeroporto di Napoli, sviluppata con:
+- Architettura MVC (Model-View-Controller) 
+- Linguaggio di programmazione a oggetti 
+- Interfaccia grafica realizzata con Java Swing e GUI Designer di IntelliJ IDEA.
+- DBMS PostegreSQL
 
 Il sistema integra:
 - Interfaccia grafica intuitiva e user-friendly
