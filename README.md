@@ -1,6 +1,6 @@
 # ✈️ Aeroporto di Napoli
 
-![Java](https://img.shields.io/badge/Java-17%252B-orange)
+![Java](https://img.shields.io/badge/Java-orange)
 [![JavaDoc](https://img.shields.io/badge/JavaDoc-Documentazione-blue)](https://Wrisss.github.io/AeroportoNapoli/)
 ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%252B-blue)
