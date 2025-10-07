@@ -36,7 +36,7 @@ public class Passeggero {
      * Metodo Getter di utility che permettere di concatenare nome e cognome di un passeggero. Questo metodo si rende
      * necessario per interagire con il database di PostegreSQL in quanto i dati non combaciano all'implementazione orientata
      * agli oggetti.
-     * @return
+     * @return il nome e il cognome come un'unica stringa.
      */
     public String getNomeCompletoPasseggero(){
         return this.nomePasseggero + " " + this.cognomePasseggero;

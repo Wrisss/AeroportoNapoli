@@ -119,10 +119,11 @@ public class Controller {
     /**
      * Metodo che permette di prenotare un volo. Ciò consente di creare una prenotazione univoca associata al volo desiderato.
      * @param codiceVolo il codice del volo identifica il volo che si intende prenotare
+     * @param idUtente il codice ID dell'utente che effettua la prenotazione
      * @param nomePasseggero nome e cognome del passeggero associati alla prenotazione
      * @param postoAssegnato il posto che si intende occupare sull'aereo
      * @return true se il volo è stato prenotato con successo, false altrimenti.
-     * La logica viene gestita dal metodo:{@link implementazionePostgresDAO.ImplementazionePostgresDAO#(int, String, int)}
+     * La logica viene gestita dal metodo:{@link ImplementazionePostgresDAO#prenotaVolo(int, int, String, int)} 
      */
     public boolean prenotaVoloController(int codiceVolo, int idUtente, String nomePasseggero, int postoAssegnato){
         return dao.prenotaVolo(codiceVolo, idUtente, nomePasseggero, postoAssegnato);

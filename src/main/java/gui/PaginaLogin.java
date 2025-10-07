@@ -63,7 +63,7 @@ public class PaginaLogin extends JFrame {
     private JOptionPane jOptionPane;
 
     /**
-     *
+     * Messaggio di benvenuto al login.
      */
     private JTextArea LoginMsg;
 

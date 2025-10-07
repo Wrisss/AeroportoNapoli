@@ -33,20 +33,25 @@ public interface PostgresDAO {
 
 
     // INTERFACCE AMMINISTRATORE
+
     /**
-     * Interfaccia che permette di inserire nuovi voli al database.
-     * @return true se l'inserimento è avvenuto con successo, false altrimenti.
+     * Interfaccia che permette di aggiungere un volo nel sistema.
+     * @param volo il volo da aggiunger
+     * @return true se l'inserimento è andato a buon fine, false altrimenti.
      */
     boolean insertVolo(Volo volo);
 
     /**
      * Interfaccia che permette di aggiornare le informazioni di un volo.
+     * @param volo il volo a cui si vogliono modificare i dettagli.
      * @return true se la modifica è avvenuta con successo, false altrimenti.
      */
     boolean modificaDettagliVolo(Volo volo);
 
     /**
      * Interfaccia che permette di assegnare un nuovo gate, solo per i voli in partenza
+     * @param nuovogate il nuovo gate da assegnare
+     * @param codiceVolo il codice del volo a cui si vuole modificare il gate
      * @return true se l'assegnazione ha avuto successo, false altrimenti.
      */
     boolean modificaGate(int nuovogate, int codiceVolo);
@@ -57,6 +62,7 @@ public interface PostgresDAO {
     /**
      * Metodo che permette di aggiungere una prenotazione al database tramite l'id del volo.
      * @param CodiceVolo il codice del volo che si intende prenotare
+     * @param idUtente l'id dell'utente che effettua la prenotazione
      * @param nomePasseggero il nome del passeggero associato alla prenotazione
      * @param postoScelto il posto scelto sull'aereo
      * @return true se l'operazione è andata a buon fine, false altrimenti
@@ -73,6 +79,7 @@ public interface PostgresDAO {
     /**
      * Interfaccia che permette di modificare una prenotazione.
      * @param idPrenotazione la prenotazione che si vuole modificare
+     * @param nuovoStato il nuovo stato che si vuole assegnare alla prenotazione. Valido come check-in.
      * @return true se la modifica è avvenuta con successo, false altrimenti
      */
     boolean aggiornaPrenotazione(int idPrenotazione, StatoPrenotazione nuovoStato);
@@ -80,6 +87,7 @@ public interface PostgresDAO {
     /**
      * Interfaccia che permette di recuperare la prenotazione conoscendo l'id del volo.
      * @param codiceVolo l'id del volo richiesta
+     * @param idUtente il codice dell'utente che effettua la ricerca
      * @return la prenotazione associata al volo.
      */
     List<Prenotazione> getPrenotazioniByIdVolo(int codiceVolo, int idUtente);

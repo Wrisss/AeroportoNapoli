@@ -12,17 +12,45 @@ import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * Classe GUI per creare una finestra ElencoVoliUG.
+ */
 public class ElencoVoliUG extends JFrame{
 
+    /**
+     * Riferimento al controller che gestisce la logica.
+     */
     private Controller controller;
+
     private List<Volo> elencoVoli;
+
+    /**
+     * Riferimento alla paginaUtenteGenerico per poter tornare alla schermata precedente.
+     */
     private PaginaUtenteGenerico paginaUtenteGenerico;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
+    /**
+     * La tabella principale che mostra i voli presenti nel sistema.
+     */
     private JTable tabellaVoli;
+
+    /**
+     * Attributo che consente la modellazione grafica della tabella principale.
+     */
     private DefaultTableModel tableModel;
+
+    /**
+     * Pannello principale.
+     */
     private JPanel panelElencoVoli;
 
+    /**
+     * Costruttore della classe ElencoVoliUG. Istanzia la finestra con la quale l'utente interagisce per prenotare i voli.
+     * Il costruttore crea una finestra con dei valori predefiniti che ne specificano la grafica.
+     * @param controller riferimento al controller che gestisce la logica
+     * @param paginaUtenteGenerico riferimento all'utente che gestisce l'interazione con la finestra
+     */
     public ElencoVoliUG(Controller controller, PaginaUtenteGenerico paginaUtenteGenerico){
         this.controller = controller;
         this.paginaUtenteGenerico = paginaUtenteGenerico;
