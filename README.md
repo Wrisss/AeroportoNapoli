@@ -1,13 +1,9 @@
 # ✈️ Aeroporto di Napoli
 
 ![Java](https://img.shields.io/badge/Java-23-orange)
-
 ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-9.0-blue)
-
 ![GUI](https://img.shields.io/badge/GUI-Swing-lightgrey)
-
 ![Maven](https://img.shields.io/badge/Maven-3.6-blue)
 
 **Progetto di Programmazione Orientata agli Oggetti**  
